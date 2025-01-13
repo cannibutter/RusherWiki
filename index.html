@@ -158,6 +158,29 @@
             border-radius: 4px;
         }
 
+	    .banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2f2f2f; /* Dark background */
+    color: #ffffff; /* White text */
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    z-index: 1000; /* Ensures it stays above all other elements */
+    font-size: 16px;
+}
+
+.banner a {
+    color: #9146ff; /* Purple link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.banner a:hover {
+    text-decoration: underline;
+}
+	    
         /* Footer */
         footer {
             text-align: center;
@@ -2996,6 +3019,10 @@ function toggleAllDetails() {
     <p>Created by <b>CANNIBUTTER</b></p>
     <p>&copy; 2025 CANNIBUTTER. </p>
 </footer>
+<div class="banner">
+    <p>Support the project! Use code <b>cannibutter</b> at checkout for RusherHack. 
+    <a href="https://rusherhack.org/" target="_blank">Visit RusherHack</a></p>
+</div>
 
 </body>
 </html>
