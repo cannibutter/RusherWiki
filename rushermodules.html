@@ -1,0 +1,2780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RusherHack Modules and Configurations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+        }
+        .navigation {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ddd;
+        }
+        .navigation a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .navigation a:hover {
+            text-decoration: underline;
+        }
+        section {
+            display: none;
+        }
+        section.active {
+            display: block;
+        }
+    </style>
+<script>
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            section.classList.remove('active');
+            section.style.display = "none"; // Hide all sections
+        });
+        const activeSection = document.getElementById(sectionId);
+        activeSection.classList.add('active');
+        activeSection.style.display = "block"; // Show only the selected section
+
+        // Reset search filter when changing sections
+        const details = activeSection.querySelectorAll('details');
+        details.forEach(detail => {
+            detail.style.display = "block"; // Show all items in the new section
+        });
+        document.getElementById('searchBox').value = ""; // Clear search box
+    }
+
+    function searchModules() {
+        const query = document.getElementById('searchBox').value.toLowerCase();
+        const activeSection = document.querySelector('section.active');
+        const details = activeSection.querySelectorAll('details');
+
+        // Filter details within the active section
+        details.forEach(detail => {
+            const text = detail.textContent.toLowerCase();
+            if (text.includes(query)) {
+                detail.style.display = "block";
+            } else {
+                detail.style.display = "none";
+            }
+        });
+    }
+</script>
+
+
+
+
+</head>
+<body>
+    <h1>RusherHack Modules and Configurations</h1>
+	
+	<div class="search-container">
+    <input type="text" id="searchBox" placeholder="Search modules..." onkeyup="searchModules()">
+</div>
+
+
+    <div class="navigation">
+        <a href="#" onclick="showSection('chat')">Chat Modules</a>
+        <a href="#" onclick="showSection('combat')">Combat Modules</a>
+        <a href="#" onclick="showSection('miscellaneous')">Miscellaneous Modules</a>
+        <a href="#" onclick="showSection('movement')">Movement Modules</a>
+        <a href="#" onclick="showSection('player')">Player Modules</a>
+        <a href="#" onclick="showSection('render')">Render Modules</a>
+        <a href="#" onclick="showSection('world')">World Modules</a>
+        <a href="#" onclick="showSection('client')">Client Modules</a>
+    </div>
+
+    <section id="chat" class="active">
+        <h2>Chat Modules</h2>
+<details>
+    <summary><b>Announcer</b></summary>
+    <p>Sends customizable messages to the chat based on specific player actions.</p>
+    <ul>
+        <li><strong>ClientSide:</strong> Displays the announcements locally without broadcasting to other players.</li>
+        <li><strong>Others:</strong> Tracks actions performed by other players (like walking or drinking).</li>
+        <li><strong>Delay:</strong> Sets the time interval (in seconds) between consecutive announcements.</li>
+        <li><strong>Walking:</strong> Announces when walking specific distances.</li>
+        <li><strong>Break:</strong> Sends messages when breaking blocks.</li>
+        <li><strong>Place:</strong> Announces when placing blocks.</li>
+        <li><strong>Pickup:</strong> Alerts when picking up items.</li>
+        <li><strong>XP:</strong> Tracks XP pickup events and announces them.</li>
+        <li><strong>Eating:</strong> Announces when consuming food items.</li>
+        <li><strong>Drinking:</strong> Tracks potion or other liquid consumption events.</li>
+        <li><strong>Time:</strong> Displays the time since the last announcement or action.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AntiSpam</b></summary>
+    <p>Filters repetitive or unwanted messages in the chat.</p>
+    <ul>
+        <li><strong>Mode:</strong> Configures how spam is handled (e.g., "Hide" to block messages).</li>
+        <li><strong>Exclusions:</strong> Adds specific keywords or phrases to exclude from being filtered.</li>
+        <li><strong>Whispers:</strong> Tracks and manages private messages (whispers).</li>
+        <li><strong>Frequency:</strong> Sets the number of repeated messages required to classify as spam.</li>
+        <li><strong>Blacklist:</strong> Blocks messages from specific players or containing specific content.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ArmorAlert</b></summary>
+    <p>Notifies the player when armor durability is low.</p>
+    <ul>
+        <li><strong>Render:</strong> Highlights the damaged armor pieces visually on the HUD.</li>
+        <li><strong>Notification:</strong> Sends a notification when armor durability falls below the set threshold.</li>
+        <ul>
+            <li><strong>Clientside:</strong> Displays the alert only for the player.</li>
+            <li><strong>Self:</strong> Alerts triggered based on the player's armor status.</li>
+            <li><strong>Others:</strong> Alerts triggered for other players' armor statuses (if visible).</li>
+        </ul>
+        <li><strong>Friends:</strong> Option to notify when friends’ armor durability is low.</li>
+        <li><strong>NoLongerLow Alert:</strong> Sends a notification when armor is no longer in the low durability state.</li>
+        <li><strong>Threshold:</strong> Sets the durability percentage at which the alert is triggered (default: 50%).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoReply</b></summary>
+    <p>Sends automatic replies to incoming chat messages.</p>
+    <ul>
+        <li><strong>TriggerText:</strong> Listens for specific words or phrases in incoming messages to trigger a reply.</li>
+        <li><strong>FriendText:</strong> Defines the reply text sent to messages from friends (e.g., `/msg [name]`).</li>
+        <li><strong>NonFriendText:</strong> Defines the reply text sent to messages from non-friends.</li>
+        <li><strong>GlobalChat:</strong> Sends the reply in global chat instead of private messages.</li>
+        <li><strong>Friends:</strong> Limits automatic replies to messages received only from friends.</li>
+        <li><strong>FocusCheck:</strong> Ensures the player is focused (not AFK) before sending a reply.</li>
+        <li><strong>Delay:</strong> Sets a delay (in seconds) before sending the reply.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ChatAppend</b></summary>
+    <p>Appends customizable text to outgoing chat messages.</p>
+    <ul>
+        <li><strong>Custom:</strong> Toggles custom text appending.</li>
+        <ul>
+            <li><strong>Text:</strong> Defines the custom text to append (e.g., "rusherhack").</li>
+        </ul>
+        <li><strong>Random:</strong> Appends randomized text to messages.</li>
+        <li><strong>Prefix:</strong> Adds a specific prefix to outgoing messages.</li>
+        <li><strong>Suffix:</strong> Adds a specific suffix to outgoing messages.</li>
+        <li><strong>Between:</strong> Configures a separator between the main message and appended text.</li>
+        <li><strong>Separator:</strong> Defines the specific separator (e.g., "|").</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ChatColors</b></summary>
+    <p>Allows customization of chat message colors.</p>
+    <ul>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraChat</b></summary>
+    <p>Expands chat functionality with additional features and settings.</p>
+    <ul>
+        <li><strong>MaxLines:</strong> Sets the maximum number of chat lines (default: 1000).</li>
+        <li><strong>Preserve:</strong> Keeps chat messages intact when resizing the chat window.</li>
+        <li><strong>Background:</strong> Configures the chat window background (e.g., transparency).</li>
+        <li><strong>CustomFont:</strong> Toggles the use of a custom font for chat messages.</li>
+        <li><strong>Animations:</strong> Enables or disables animations for chat transitions.</li>
+        <li><strong>Mentions:</strong> Configures mention settings for chat messages.</li>
+        <ul>
+            <li><strong>Friends:</strong> Highlights messages from friends.</li>
+            <li><strong>Highlight:</strong> Toggles mention highlighting.</li>
+            <li><strong>Sound:</strong> Plays a sound notification when mentioned.</li>
+        </ul>
+        <li><strong>IgnoreSelfMsgs:</strong> Prevents displaying messages sent by the player.</li>
+        <li><strong>NameProtect:</strong> Toggles protection of player names in chat.</li>
+        <li><strong>StripBlankLines:</strong> Removes blank lines from chat messages.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FancyChat</b></summary>
+    <p>Customizes the format and appearance of chat messages.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the chat format style (e.g., Classic, Custom).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>GreenText</b></summary>
+    <p>Adds a ">" prefix to messages, mimicking green text style from forums.</p>
+    <ul>
+        <li><strong>Space:</strong> Adds a space after the ">" prefix.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Greeter</b></summary>
+    <p>Sends automated messages when joining or leaving a server.</p>
+    <ul>
+        <li><strong>ClientSide:</strong> Displays the greeting message only on the client-side chat.</li>
+        <li><strong>Filter:</strong> Filters specific events (e.g., All, Joins, Leaves).</li>
+        <li><strong>Joins:</strong> Sends a message when a player joins.</li>
+        <li><strong>Leaves:</strong> Sends a message when a player leaves.</li>
+        <li><strong>Delay:</strong> Sets the delay for sending the greeting message (in seconds).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>LagDetector</b></summary>
+    <p>Detects and notifies the player about server lag.</p>
+    <ul>
+        <li><strong>Delay:</strong> Sets the delay before detecting lag (in seconds).</li>
+        <li><strong>Render:</strong> Toggles rendering lag information in the chat.</li>
+        <li><strong>Notification:</strong> Configures the type of notification for lag alerts.</li>
+        <li><strong>Clientside:</strong> Toggles client-side lag detection.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>RusherCrypt</b></summary>
+    <p>Encrypts and decrypts chat messages for secure communication.</p>
+    <ul>
+        <li><strong>Encrypt:</strong> Toggles the encryption of outgoing messages.</li>
+        <li><strong>Decrypt:</strong> Toggles the decryption of incoming messages.</li>
+        <li><strong>ChatObfuscation:</strong> Obfuscates chat messages for privacy.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Spammer</b></summary>
+    <p>Automatically sends spam messages based on predefined files and configurations.</p>
+    <ul>
+        <li><strong>File:</strong> Specifies the file containing spam messages (e.g., default.txt).</li>
+        <li><strong>Mode:</strong> Determines the order of spam (e.g., In Order, Random).</li>
+        <li><strong>Whisper:</strong> Enables whisper commands for spam messages.</li>
+        <li><strong>Command:</strong> The command prefix to be used for spamming (default: msg).</li>
+        <li><strong>Delay:</strong> Time interval between spam messages in seconds.</li>
+        <li><strong>RandomDelay:</strong> Adds random delays between spam messages for anti-spam bypass.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the spammer on or off.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Timestamps</b></summary>
+    <p>Adds timestamps to chat messages with customizable formats.</p>
+    <ul>
+        <li><strong>Time Color:</strong> Customizes the color of the timestamp text.</li>
+        <li><strong>Advanced:</strong> Enables advanced time formatting (e.g., HH:mm:ss).</li>
+        <li><strong>24hr:</strong> Toggles between 24-hour and 12-hour time formats.</li>
+        <li><strong>Seconds:</strong> Includes seconds in the timestamp.</li>
+        <li><strong>Milliseconds:</strong> Includes milliseconds in the timestamp.</li>
+        <li><strong>AM/PM:</strong> Displays AM or PM for 12-hour format.</li>
+        <li><strong>Punctuation:</strong> Specifies punctuation styles for timestamps (e.g., Arrow, Colon).</li>
+        <li><strong>Space:</strong> Adds a space between the timestamp and the chat text.</li>
+        <li><strong>Bind:</strong> Keybind to toggle timestamp display.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Translate</b></summary>
+    <p>Translates chat messages between specified languages.</p>
+    <ul>
+        <li><strong>Sending:</strong> Adds a notice for outgoing messages.</li>
+        <li><strong>Receiving:</strong> Adds a notice for incoming messages.</li>
+        <li><strong>KeepOriginal:</strong> Displays the original text along with the translated text.</li>
+        <li><strong>PrivateMessages:</strong> Restricts translation to private messages only.</li>
+        <li><strong>Input:</strong> Specifies the input language for translation (e.g., English).</li>
+        <li><strong>Output:</strong> Specifies the output language for translation (e.g., Chinese).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the translation feature.</li>
+    </ul>
+</details>
+
+    </section>
+
+    <section id="combat">
+        <h2>Combat Modules</h2>
+<details>
+    <summary><b>Anchor</b></summary>
+    <p>Allows for precise block placement to anchor enemies in combat scenarios.</p>
+    <ul>
+        <li><strong>Height:</strong> Determines the vertical range for block placement (default: 1).</li>
+        <li><strong>Center:</strong> Adjusts block placement to be centered on the enemy.</li>
+        <li><strong>Range:</strong> Sets the horizontal distance for block placement detection (default: 0).</li>
+        <li><strong>RayTrace:</strong> Ensures line-of-sight before placing blocks to avoid anti-cheat detection.</li>
+        <li><strong>Speed:</strong> Configures the speed of block placement actions (default: 0.2).</li>
+        <li><strong>Descend Speed:</strong> Controls the speed of descending actions during anchoring (default: 0.1).</li>
+        <li><strong>Doubles:</strong> Enables double block placement for increased trap efficiency.</li>
+        <li><strong>AutoDisable:</strong> Automatically disables the module after successful trapping.</li>
+        <li><strong>PitchControl:</strong> Adjusts the player’s pitch angle for better accuracy during block placement.</li>
+        <li><strong>Pitch:</strong> Sets a fixed pitch value (default: 1).</li>
+        <li><strong>Delay:</strong> Specifies a delay between placement actions (default: 0).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the Anchor module on or off.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Aura</b></summary>
+    <p>Aura, often referred to as KillAura, is a combat module that automatically targets and attacks entities.</p>
+    <ul>
+        <li><strong>Reach:</strong> Adjust the distance at which entities can be targeted (e.g., 2.97).</li>
+        <li><strong>HitDelay:</strong> Configures the time between attacks.</li>
+        <li><strong>Delay:</strong> Set a specific time interval for attacks to avoid spam or detection.</li>
+        <li><strong>TPS Sync:</strong> Synchronizes attack speed with server TPS to maintain stability.</li>
+        <li><strong>AutoBlock:</strong> Automatically blocks while attacking for added protection.</li>
+        <li><strong>KeepSprint:</strong> Allows you to continue sprinting while attacking.</li>
+        <li><strong>WeaponCheck:</strong> Ensures you are holding a weapon before attacking.</li>
+        <li><strong>Rotate:</strong> Adjusts your player's rotation to target enemies accurately.</li>
+        <ul>
+            <li><strong>Speed:</strong> Set the speed of rotation (e.g., 180).</li>
+            <li><strong>Timing:</strong> Choose rotation timing, such as Vanilla or Instant.</li>
+        </ul>
+        <li><strong>Targets:</strong> Configure targeting preferences.</li>
+        <ul>
+            <li><strong>Players:</strong> Prioritize or exclude players.</li>
+            <li><strong>FriendProtect:</strong> Avoid targeting friends.</li>
+            <li><strong>PrioritizeEnemies:</strong> Focus on hostile targets over neutral ones.</li>
+            <li><strong>IgnoreCreative:</strong> Ignore players in creative mode.</li>
+            <li><strong>Hostiles:</strong> Target hostile mobs.</li>
+            <li><strong>Passives:</strong> Target passive mobs.</li>
+            <li><strong>IgnoreTamed:</strong> Skip tamed mobs.</li>
+            <li><strong>IgnoreNamed:</strong> Avoid entities with names.</li>
+            <li><strong>Neutrals:</strong> Include neutral mobs in targeting.</li>
+            <li><strong>Vehicles:</strong> Target entities in vehicles.</li>
+            <li><strong>Projectiles:</strong> Target incoming projectiles.</li>
+            <li><strong>ArmorStands:</strong> Target armor stands.</li>
+        </ul>
+        <li><strong>Priority:</strong> Set target prioritization (e.g., Distance).</li>
+        <li><strong>PauseWhileEating:</strong> Pauses attacks while eating.</li>
+        <li><strong>DisableOnDeath:</strong> Automatically disables the module upon player death.</li>
+        <li><strong>PauseBaritone:</strong> Pauses the Baritone module while attacking.</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module (e.g., G).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoArmor</b></summary>
+    <p>AutoArmor is a module that automatically equips the best available armor in your inventory.</p>
+    <ul>
+        <li><strong>Delay:</strong> Sets the delay (in ticks) between equipping pieces of armor (e.g., 2).</li>
+        <li><strong>Soft:</strong> When enabled, only equips armor if no other armor is already equipped.</li>
+        <li><strong>Inventory:</strong> Allows equipping armor directly from the inventory.</li>
+        <li><strong>BindingCurse:</strong> Determines whether to equip armor with the Curse of Binding enchantment.</li>
+        <li><strong>ElytraPriority:</strong> Gives priority to equipping an Elytra over a chestplate.</li>
+        <li><strong>BlastPriority:</strong> Prefers blast-resistant armor for added protection against explosions.</li>
+        <li><strong>Durability:</strong> Determines the minimum durability percentage required to equip armor.</li>
+        <li><strong>Threshold:</strong> Sets the durability threshold for replacing existing armor (e.g., 5).</li>
+        <li><strong>Bind:</strong> Keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoCrystal</b></summary>
+    <p>A combat module designed to automatically place and detonate end crystals to deal maximum damage to enemies.</p>
+    <ul>
+        <li><strong>Targeting:</strong> Specifies the type of entities to target. Includes:
+            <ul>
+                <li><strong>Players:</strong> Targets player entities.</li>
+                <li><strong>FriendProtect:</strong> Avoids targeting players marked as friends.</li>
+                <li><strong>PrioritizeEnemies:</strong> Focuses on hostile or enemy players.</li>
+                <li><strong>IgnoreCreative:</strong> Ignores entities in creative mode.</li>
+                <li><strong>Hostiles:</strong> Targets hostile mobs.</li>
+                <li><strong>Passives:</strong> Targets passive mobs.</li>
+                <li><strong>IgnoreTamed:</strong> Ignores tamed mobs.</li>
+                <li><strong>IgnoreNamed:</strong> Ignores named mobs.</li>
+                <li><strong>Neutrals:</strong> Targets neutral mobs.</li>
+                <li><strong>Vehicles:</strong> Targets vehicle entities.</li>
+            </ul>
+        </li>
+        <li><strong>Priority:</strong> Determines targeting priority. Options: Angle, Distance, etc.</li>
+        <li><strong>CheckLimit:</strong> Maximum number of targets to consider simultaneously.</li>
+        <li><strong>Render:</strong> Visual options for displaying target information. Includes:
+            <ul>
+                <li><strong>Color:</strong> Sets the target highlight color.</li>
+                <li><strong>Fill:</strong> Configures the filled overlay color.</li>
+                <li><strong>Outline:</strong> Configures the outline color and thickness.</li>
+                <li><strong>DepthTest:</strong> Toggles depth testing for rendering.</li>
+            </ul>
+        </li>
+        <li><strong>Explode:</strong> Configurations for crystal detonation. Includes:
+            <ul>
+                <li><strong>Speed:</strong> Sets the explosion rate.</li>
+                <li><strong>Range:</strong> Sets the detonation range.</li>
+                <li><strong>WallRange:</strong> Adjusts range through walls.</li>
+                <li><strong>HitAttempts:</strong> Maximum number of attempts to hit a crystal.</li>
+                <li><strong>TicksExisted:</strong> Limits detonation based on crystal lifespan.</li>
+                <li><strong>DamageCalcs:</strong> Configures damage calculation. Includes:
+                    <ul>
+                        <li><strong>MinDamage:</strong> Minimum damage to trigger detonation.</li>
+                        <li><strong>SelfDamageLimit:</strong> Prevents self-damage above a limit.</li>
+                        <li><strong>SelfDamageRatio:</strong> Ratio of self-damage to enemy damage.</li>
+                        <li><strong>IgnoreRatioUnder:</strong> Ignores ratios below a threshold.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Instant:</strong> Configurations for instant crystal placement and detonation.</li>
+        <li><strong>WhileEating:</strong> Allows crystal actions while eating food.</li>
+        <li><strong>WhileMining:</strong> Allows crystal actions while mining blocks.</li>
+        <li><strong>Rotate:</strong> Configurations for automatic rotation toward targets.</li>
+        <li><strong>Predict:</strong> Predicts target movement for better accuracy.</li>
+        <li><strong>Miscellaneous:</strong> Miscellaneous settings like delays and toggles.</li>
+        <li><strong>Bind:</strong> Sets a custom keybind for enabling or disabling the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>AutoDisconnect</b></summary>
+    <p>A module designed to automatically disconnect the player when specific conditions are met to avoid dangerous or unwanted situations.</p>
+    <ul>
+        <li><strong>AutoToggle:</strong> Automatically toggles the module on or off based on predefined criteria.</li>
+        <li><strong>IllegalDisconnect:</strong> Prevents disconnects that would violate server rules or mechanics.</li>
+        <li><strong>AlwaysOn:</strong> Keeps the module active at all times.</li>
+        <li><strong>StopAutoRC:</strong> Disables automatic reconnection when the module triggers a disconnect.</li>
+        <li><strong>Health:</strong> Disconnects the player if health drops below a specific threshold. Includes:
+            <ul>
+                <li><strong>Amount:</strong> Sets the health value to trigger a disconnect.</li>
+                <li><strong>TotemCheck:</strong> Ensures totems are checked before disconnecting.</li>
+                <li><strong>Threshold:</strong> Defines the critical health level for disconnection.</li>
+            </ul>
+        </li>
+        <li><strong>TotemPop:</strong> Disconnects when a totem pops to avoid further damage.</li>
+        <li><strong>LethalCrystal:</strong> Disconnects when a crystal explosion could cause death.</li>
+        <li><strong>Proximity:</strong> Disconnects based on proximity to certain entities. Includes:
+            <ul>
+                <li><strong>Players:</strong> Disconnects when players are within a certain range.</li>
+                <li><strong>FriendProtect:</strong> Avoids disconnecting if the nearby player is a friend.</li>
+                <li><strong>Hostiles:</strong> Disconnects when hostile mobs are nearby.</li>
+                <li><strong>Neutrals:</strong> Disconnects when neutral mobs are within range.</li>
+                <li><strong>Passives:</strong> Disconnects when passive mobs are close.</li>
+                <li><strong>EndCrystals:</strong> Disconnects when end crystals are detected nearby.</li>
+                <li><strong>TNTMinecarts:</strong> Disconnects when TNT minecarts are in range.</li>
+            </ul>
+        </li>
+        <li><strong>Range:</strong> Specifies the detection range for players, entities, or hazards.</li>
+        <li><strong>Coordinates:</strong> Sets a range of safe coordinates to remain within.</li>
+        <li><strong>Time:</strong> Configures time-based triggers for disconnections.</li>
+        <li><strong>YLevel:</strong> Disconnects the player if they drop below a specific Y-coordinate level.</li>
+        <li><strong>Bind:</strong> Sets a custom keybind for enabling or disabling the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoEXP</b></summary>
+    <p>A utility module designed to automatically use experience bottles for repairing armor, tools, or gaining experience for enchanting.</p>
+    <ul>
+        <li><strong>Mode:</strong> Configures the behavior of the module. Options:
+            <ul>
+                <li><strong>Macro:</strong> Uses experience bottles rapidly for quick repairs or experience gain.</li>
+            </ul>
+        </li>
+        <li><strong>Durability%:</strong> Specifies the percentage of durability remaining on an item before triggering the repair process.</li>
+        <li><strong>DynamicArmor:</strong> Toggles whether the module dynamically targets different pieces of armor for repair based on their durability.</li>
+        <li><strong>Delay:</strong> Sets the time interval (in ticks) between using experience bottles.</li>
+        <li><strong>PauseAutoArmor:</strong> Pauses the AutoArmor module while AutoEXP is active to prevent conflicts.</li>
+        <li><strong>Smart:</strong> Enables intelligent usage of experience bottles to avoid wasting them unnecessarily.</li>
+        <li><strong>Range:</strong> Sets the range (in blocks) within which experience bottles will be used.</li>
+        <li><strong>AllowXCarry:</strong> Enables compatibility with XCarry to repair items stored in extended inventory slots.</li>
+        <li><strong>IgnoreElytra:</strong> Ignores repairing equipped elytras to focus on other items.</li>
+        <li><strong>AutoSwitch:</strong> Automatically switches to experience bottles when required.</li>
+        <li><strong>Silent:</strong> Allows AutoSwitch to occur without visibly changing the held item.</li>
+        <li><strong>Rotate:</strong> Rotates the player's view toward the ground or the target location for throwing experience bottles effectively.</li>
+        <li><strong>Bind:</strong> Sets a custom keybind for enabling or disabling the module.</li>
+    </ul>
+</details>
+
+<details>
+  <summary><b>AutoHole</b></summary>
+  <p> Automatically identifies and positions the player into safe holes for better PvP defense. This module is useful for anchoring yourself against attacks or explosives.</p>
+  <ul>
+    <li><b>Range:</b> Sets the maximum distance within which the module will search for a hole.</li>
+    <li><b>Blink:</b> Simulates movement without updating the player's position to the server, useful for fast hole placement.</li>
+    <li><b>IgnoreOwnHole:</b> Prevents the module from targeting the hole the player is already standing in.</li>
+    <li><b>IgnoreDeep:</b> Ignores holes that are deeper than one block, which may be unsafe or difficult to escape from.</li>
+  </ul>
+</details>
+
+
+<details>
+  <summary><b>AutoSurround</b></summary>
+  <p> Automatically surrounds the player with blocks to provide instant protection from attacks or explosions. Ideal for PvP scenarios where quick defense is necessary.</p>
+  <ul>
+    <li><b>Mode:</b> Specifies the active mode for surrounding the player (e.g., Active).</li>
+    <li><b>MoveDelay:</b> Adds a delay between block placements when the player is moving.</li>
+    <li><b>Instant:</b> Enables fast block placement for immediate defense.</li>
+    <li><b>Grim:</b> An anti-cheat compliant mode for bypassing server restrictions.</li>
+    <li><b>Sync:</b> Ensures block placements are synchronized with the server to avoid desync issues.</li>
+    <li><b>PlaceDelay:</b> Configures the time delay before placing each block.</li>
+    <li><b>StrictDir:</b> Limits block placement to locations visible to the player.</li>
+    <li><b>Raytrace:</b> Ensures blocks are only placed on surfaces that can be seen by the player.</li>
+    <li><b>Rotate:</b> Automatically rotates the player's view to the block placement position.</li>
+    <li><b>AntiCity:</b> Prevents nearby opponents from strategically blocking you into an area.</li>
+    <li><b>DisableOnDeath:</b> Deactivates the module if the player dies.</li>
+    <li><b>Render:</b> Provides a visual preview of the blocks being placed for better awareness.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>AutoWeb</b></summary>
+  <p> Automatically places cobwebs around enemies to slow them down or trap them. Useful in PvP scenarios for reducing mobility and gaining an advantage over opponents.</p>
+  <ul>
+    <li><b>Mode:</b> Sets the placement mode (e.g., Single, Surround).</li>
+    <li><b>Delay:</b> Adds a time delay between cobweb placements to prevent overuse.</li>
+    <li><b>Range:</b> Defines the maximum range within which cobwebs can be placed.</li>
+    <li><b>StrictDir:</b> Ensures cobwebs are only placed in locations the player can directly see.</li>
+    <li><b>Render:</b> Displays a preview of cobweb placements for better accuracy and planning.</li>
+    <li><b>DisableOnDeath:</b> Automatically disables the module when the player dies.</li>
+    <li><b>Bind:</b> Configures a keybind to toggle the module on or off quickly.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>AutoTotem</b></summary>
+  <p> Automatically equips a totem of undying or other defensive items to protect the player during critical situations. Helps ensure survival during intense PvP or PvE encounters.</p>
+  <ul>
+    <li><b>Mode:</b> Specifies the conditions for equipping a totem (e.g., Health).</li>
+    <li><b>Health:</b> Sets the health threshold that triggers a totem swap.</li>
+    <li><b>AlternateItem:</b> Allows equipping alternate items such as end crystals or shields when needed.</li>
+    <li><b>TotemWhen:</b> Configures additional scenarios, like falling from a height, to trigger a totem swap.</li>
+    <li><b>HotbarPriority:</b> Prefers swapping items from the hotbar instead of the inventory.</li>
+    <li><b>Delay:</b> Adds a time delay between item swaps to prevent rapid toggling.</li>
+    <li><b>StopMotion:</b> Halts player movement while swapping to ensure proper activation.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>AutoTrap</b></summary>
+  <p> Automatically places blocks around enemies to trap them and restrict their movement. This is useful for PvP scenarios, especially against players using crystals or high-mobility strategies.</p>
+  <ul>
+    <li><b>Mode:</b> Configures the module's operation mode (e.g., Active, Passive).</li>
+    <li><b>MoveDelay:</b> Sets the delay between movements when placing blocks.</li>
+    <li><b>TrapType:</b> Selects the type of trap to place, such as Normal or an alternative configuration.</li>
+    <li><b>FriendProtect:</b> Prevents blocks from being placed near friends.</li>
+    <li><b>IgnoreSelf:</b> Ignores attempts to trap the player themselves accidentally.</li>
+    <li><b>LogoutSpots:</b> Enables targeting of logout locations to trap offline players.</li>
+    <li><b>AntiStep:</b> Prevents enemies from escaping upward by blocking their path.</li>
+    <li><b>EnemyRange:</b> Specifies the distance within which enemies are targeted for trapping.</li>
+    <li><b>PlaceRange:</b> Defines the maximum range for placing blocks.</li>
+    <li><b>PlaceDelay:</b> Configures the delay between each block placement.</li>
+    <li><b>StrictDir:</b> Ensures blocks are only placed in directions the player can directly see.</li>
+    <li><b>Raytrace:</b> Enables raytracing to ensure line-of-sight before placing blocks (useful for bypassing anti-cheat).</li>
+    <li><b>Rotate:</b> Adjusts the player’s rotation automatically to aim at the placement spot.</li>
+    <li><b>Speed:</b> Sets the rotation speed when aiming to place blocks.</li>
+    <li><b>Timing:</b> Selects the timing mode for block placement (e.g., Vanilla, optimized).</li>
+    <li><b>Swap:</b> Automatically switches to the correct block type for trapping.</li>
+    <li><b>Silent:</b> Allows block swapping without visually changing the held item.</li>
+    <li><b>Render:</b> Displays a visual outline of the trap being built.</li>
+    <li><b>Color:</b> Sets the color for the trap’s outline in render mode.</li>
+    <li><b>Width:</b> Adjusts the thickness of the rendered outline.</li>
+    <li><b>DepthTest:</b> Ensures the rendering respects depth, so it does not overlap with other objects.</li>
+    <li><b>DisableOnDeath:</b> Automatically disables the module upon the player's death.</li>
+    <li><b>Bind:</b> Configures a keybind to toggle the module on or off.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>BowAimbot</b></summary>
+  <p><b>Description:</b> Enhances bow aiming by automatically locking onto targets, improving hit accuracy. Ideal for PvP and PvE scenarios requiring precise shots.</p>
+  <ul>
+    <li><b>Targets:</b> Specifies the entities BowAimbot will target.</li>
+    <li><b>Players:</b> 
+      <ul>
+        <li><b>FriendProtect:</b> Avoids targeting friends.</li>
+        <li><b>PrioritizeEnemies:</b> Prioritizes marked enemies over neutral targets.</li>
+        <li><b>IgnoreCreative:</b> Ignores players in Creative mode.</li>
+      </ul>
+    </li>
+    <li><b>Hostiles:</b> Enables targeting of hostile mobs.</li>
+    <li><b>Passives:</b> Enables targeting of passive mobs.</li>
+    <li><b>IgnoreTamed:</b> Avoids targeting tamed mobs.</li>
+    <li><b>IgnoreNamed:</b> Skips entities with custom names.</li>
+    <li><b>Neutrals:</b> Includes neutral mobs like wolves or endermen that aren't currently hostile.</li>
+    <li><b>Vehicles:</b> Targets vehicles like minecarts or boats.</li>
+    <li><b>Extrapolation:</b> Predicts target movement to lead shots effectively.</li>
+    <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>BowSpam</b></summary>
+  <p> Automates rapid bow usage by continuously shooting arrows, making it ideal for constant pressure in combat scenarios.</p>
+  <ul>
+    <li><b>Ticks:</b> Determines the delay between consecutive shots. Lower values result in faster shooting.</li>
+    <li><b>Bind:</b> Assigns a keybind to toggle the module on or off.</li>
+  </ul>
+</details>
+
+<details>
+  <summary><b>Criticals</b></summary>
+  <p> Ensures all melee attacks register as critical hits, increasing damage output in combat.</p>
+  <ul>
+    <li><b>Mode:</b> Configures the method to perform critical hits:
+      <ul>
+        <li><b>Jump:</b> Automatically jumps to trigger critical hits.</li>
+      </ul>
+    </li>
+    <li><b>WhileSprinting:</b> Allows critical hits to occur while sprinting.</li>
+    <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+  </ul>
+</details>
+
+<details>
+    <summary><b>HoleFiller</b></summary>
+    <p>A module designed to fill nearby holes to prevent enemies from using them strategically in combat.</p>
+    <ul>
+        <li><b>Mode:</b> Determines how the module operates (e.g., "Active").</li>
+        <li><b>Smart:</b> Enables the module to intelligently decide which holes to fill based on context.</li>
+        <li><b>Distance:</b> Maximum range (in blocks) for detecting and filling holes.</li>
+        <li><b>WhileIdle:</b> Allows the module to run while the player is idle.</li>
+        <li><b>Doubles:</b> Enables the filling of double-sized holes for better coverage.</li>
+        <li><b>SafeRange:</b> Sets a safety distance to avoid filling holes near potential threats.</li>
+        <li><b>Range:</b> The total range within which the module will operate to fill holes.</li>
+        <li><b>Delay:</b> Time interval (in ticks) between each hole-filling action.</li>
+        <li><b>StrictDir:</b> Forces the module to adhere strictly to direction rules when placing blocks.</li>
+        <li><b>Raytrace:</b> Enables ray tracing for accurate block placement.</li>
+        <li><b>Rotate:</b> Toggles rotation during placement for better alignment.</li>
+        <li><b>Speed:</b> Sets the speed of block placement.</li>
+        <li><b>Timing:</b> Determines the timing method (e.g., "Vanilla").</li>
+        <li><b>Swap:</b> Allows automatic swapping of items in the hotbar if needed for hole-filling.</li>
+        <li><b>Silent:</b> Runs the module silently without rendering feedback to the player.</li>
+        <li><b>Render:</b> Toggles the visualization of the holes being filled.</li>
+        <li><b>Color:</b> Sets the color for the rendered visuals of filled holes.</li>
+        <li><b>Bind:</b> Assigns a keybind for enabling or disabling the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>HotbarReplenish</b></summary>
+    <p>A module designed to automatically replenish items in the hotbar from your inventory when they run low.</p>
+    <ul>
+        <li><b>Mode:</b> Determines the operation mode (e.g., "Blacklist").</li>
+        <li><b>WhileIdle:</b> Allows the module to function while the player is idle.</li>
+        <li><b>Inventory:</b> Specifies the source inventory slots to use for replenishment.</li>
+        <li><b>Offhand:</b> Toggles whether to replenish items in the offhand slot.</li>
+        <li><b>Threshold:</b> The minimum item count in a hotbar slot before replenishment is triggered.</li>
+        <li><b>Delay:</b> Time interval (in ticks) between each replenishment action.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Ignite</b></summary>
+    <p>A combat module for igniting enemies with flint and steel or fire charges at close range.</p>
+    <ul>
+        <li><b>Reach:</b> The maximum distance (in blocks) to ignite targets.</li>
+        <li><b>Delay:</b> Time interval (in ticks) between each ignition attempt.</li>
+        <li><b>Swap:</b> Automatically swaps to the item needed for ignition.</li>
+        <li><b>Rotate:</b> Toggles whether the player’s view rotates to align with the target during ignition.</li>
+        <li><b>Targets:</b> Specifies the entities to target for ignition (e.g., players, mobs).</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>PvPInfo</b></summary>
+    <p>A module designed to provide detailed information during PvP encounters.</p>
+    <ul>
+        <li><b>Potions:</b> Displays potion effects affecting the player or opponents.</li>
+        <ul>
+            <li><b>StrengthDetect:</b> Detects and displays when the player or opponent has a Strength effect.</li>
+            <li><b>SelfRunOut:</b> Alerts the player when their own potion effects are running out.</li>
+            <li><b>Strength:</b> Highlights the Strength potion effect in the display.</li>
+            <li><b>Absorption:</b> Displays the absorption hearts effect.</li>
+        </ul>
+        <li><b>Pearls:</b> Tracks ender pearl usage in combat.</li>
+        <li><b>VisualRange:</b> Alerts the player when an opponent enters their visual range.</li>
+        <li><b>Sound:</b> Plays a sound notification for specific PvP events.</li>
+        <li><b>TotemPops:</b> Counts the number of times an opponent's totem has activated.</li>
+        <li><b>SelfPops:</b> Tracks the number of times the player's own totem has activated.</li>
+        <li><b>32k Detect:</b> Detects opponents using 32k (modified) weapons.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Quiver</b></summary>
+    <p>A utility module for managing and optimizing arrow usage in PvP scenarios.</p>
+    <ul>
+        <li><b>Primary:</b> The primary effect to prioritize for arrows (e.g., Strength).</li>
+        <li><b>Secondary:</b> The secondary effect to prioritize for arrows (e.g., Speed).</li>
+        <li><b>BowTicks:</b> Sets the delay (in ticks) for firing arrows with specific effects.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>TriggerBot</b></summary>
+    <p>A module that automatically triggers attacks when aiming at valid targets.</p>
+    <ul>
+        <li><b>WeaponCheck:</b> Ensures the module only activates when holding a valid weapon.</li>
+        <li><b>AttackSpeed:</b> Sets the interval (in ticks) between consecutive attacks.</li>
+        <li><b>Targets:</b> Defines the types of entities to target:</li>
+        <ul>
+            <li><b>Players:</b> Targets other players.</li>
+            <ul>
+                <li><b>FriendProtect:</b> Excludes friends from being attacked.</li>
+                <li><b>PrioritizeEnemies:</b> Gives priority to known enemies over neutral players.</li>
+                <li><b>IgnoreCreative:</b> Ignores players in creative mode.</li>
+            </ul>
+            <li><b>Hostiles:</b> Targets hostile mobs (e.g., zombies, skeletons).</li>
+            <li><b>Passives:</b> Targets passive mobs (e.g., cows, sheep).</li>
+            <ul>
+                <li><b>IgnoreTamed:</b> Ignores tamed mobs.</li>
+                <li><b>IgnoreNamed:</b> Ignores named mobs.</li>
+            </ul>
+            <li><b>Neutrals:</b> Targets neutral mobs (e.g., endermen, zombie pigmen).</li>
+            <li><b>Vehicles:</b> Targets rideable entities (e.g., boats, minecarts).</li>
+        </ul>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+    </section>
+
+	<section id="miscellaneous">
+    <h2>Miscellaneous Modules</h2>
+<details>
+    <summary><b>AntiAFK</b></summary>
+    <p>Prevents the player from being kicked for being idle by performing periodic actions.</p>
+    <ul>
+        <li><b>Delay:</b> Sets the interval (in seconds) between anti-AFK actions.</li>
+        <li><b>FocusedCheck:</b> Ensures the anti-AFK module only works when the game window is focused.</li>
+        <li><b>ActivityCheck:</b> Toggles additional checks for player activity before performing actions.</li>
+        <ul>
+            <li><b>Delay:</b> Time interval (in seconds) for these checks.</li>
+        </ul>
+        <li><b>Jump:</b> Periodically makes the player jump to prevent idleness.</li>
+        <li><b>Swing:</b> Simulates arm swings to mimic player activity.</li>
+        <li><b>Rotate:</b> Periodically rotates the player's view to avoid detection as idle.</li>
+        <li><b>Sneak:</b> Periodically toggles sneak to prevent idle detection.</li>
+        <li><b>Move:</b> Simulates movement to keep the player active.</li>
+        <li><b>/stats:</b> Periodically sends a "/stats" command to the server as an anti-AFK action.</li>
+        <li><b>Baritone:</b> Utilizes Baritone pathfinding for movement to prevent idleness.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AntiAim</b></summary>
+    <p>A module that randomly moves the player's aim to make targeting them harder for others.</p>
+    <ul>
+        <li><b>Yaw:</b> Configures the horizontal aim behavior.</li>
+        <ul>
+            <li><b>Jitter:</b> Makes the yaw randomly jitter within a specified range.</li>
+        </ul>
+        <li><b>Pitch:</b> Configures the vertical aim behavior.</li>
+        <ul>
+            <li><b>Down:</b> Keeps the pitch aimed downward.</li>
+        </ul>
+        <li><b>2b2t:</b> Toggles specific anti-aim settings tailored for the 2b2t server.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AntiHunger</b></summary>
+    <p>A module that prevents the player from losing hunger, useful for maintaining full hunger bars in survival scenarios.</p>
+    <ul>
+        <li><b>ToggleSprint:</b> Prevents sprinting to conserve hunger.</li>
+        <li><b>SneakOnJump:</b> Toggles sneaking while jumping to reduce hunger loss during jumps.</li>
+        <li><b>CancelFoodPackets:</b> Cancels specific packets sent to the server that trigger hunger reduction.</li>
+        <li><b>Bind:</b> Assigns a keybind to enable or disable the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AntiPacket</b></summary>
+    <p>A module that filters and blocks specific packets sent or received to prevent certain server interactions or debug unwanted behaviors.</p>
+    <ul>
+        <li><b>Debug:</b> Enables debugging logs for packet activity.</li>
+        <li><b>Clientbound:</b> Filters incoming packets from the server to the client.</li>
+        <li><b>Serverbound:</b> Filters outgoing packets from the client to the server.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AntiQuit</b></summary>
+    <p>Prevents the player from quitting the game accidentally by intercepting disconnect or game close actions.</p>
+    <ul>
+        <li><b>Disconnect:</b> Prevents the player from disconnecting from the server.</li>
+        <li><b>GameClose:</b> Blocks the closing of the game application.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoAccept</b></summary>
+    <p>Automatically accepts certain requests such as TPA (teleportation requests), duels, or friend requests based on configured preferences.</p>
+    <ul>
+        <li><b>Deny:</b> Automatically denies unwanted requests.</li>
+        <li><b>Friends:</b> Auto-accepts friend requests.</li>
+        <li><b>TPA:</b> Automatically accepts teleportation requests.</li>
+        <li><b>Duels:</b> Automatically accepts duel invitations.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoMount</b></summary>
+    <p>A module designed to automatically mount specified entities or vehicles when in range.</p>
+    <ul>
+        <li><b>Targets:</b> Specifies the entities or vehicles to mount, including:
+            <ul>
+                <li><b>Horses:</b> Automatically mounts horses.</li>
+                <li><b>Donkeys:</b> Automatically mounts donkeys.</li>
+                <li><b>Llamas:</b> Automatically mounts llamas.</li>
+                <li><b>Boats:</b> Automatically enters boats.</li>
+                <li><b>Minecarts:</b> Automatically enters minecarts.</li>
+                <li><b>Pigs:</b> Automatically mounts pigs.</li>
+            </ul>
+        </li>
+        <li><b>Range:</b> Sets the distance to detect mountable entities (default: 3).</li>
+        <li><b>Delay:</b> Adds a delay before mounting (default: 0).</li>
+        <li><b>Tamed:</b> Only mounts tamed entities if enabled.</li>
+        <li><b>Rotate:</b> Automatically rotates the player to face the entity before mounting.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoNametag</b></summary>
+    <p>Automatically applies nametags to specified entities based on configured preferences.</p>
+    <ul>
+        <li><b>Mode:</b> Specifies the targets for nametagging (default: All).</li>
+        <li><b>IgnoreNamed:</b> Ignores entities that already have a name.</li>
+        <li><b>Swap:</b> Allows swapping between nametags automatically.</li>
+        <li><b>Silent:</b> Enables silent nametagging without affecting gameplay visuals.</li>
+        <li><b>Rotate:</b> Rotates the player to face the entity before applying the nametag.</li>
+        <li><b>Speed:</b> Sets the rotation speed (default: 180).</li>
+        <li><b>Range:</b> Sets the detection range for entities (default: 3).</li>
+        <li><b>Delay:</b> Adds a delay before applying the nametag (default: 0).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoReconnect</b></summary>
+    <p>Automatically reconnects to the server after being disconnected.</p>
+    <ul>
+        <li><b>Delay:</b> Sets the delay (in seconds) before attempting to reconnect (default: 60).</li>
+        <li><b>Hide:</b> Hides the reconnect message if enabled.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoRespawn</b></summary>
+    <p>Automatically respawns the player upon death.</p>
+    <ul>
+        <li><b>DeathCoords:</b> Displays the coordinates where the player died.</li>
+        <li><b>Delay:</b> Sets the delay (in seconds) before respawning (default: 0).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoSorter</b></summary>
+    <p>Automatically sorts items in the player's inventory or chests based on the selected sorting mode.</p>
+    <ul>
+        <li><b>Selection:</b> Determines the sorting target:
+            <ul>
+                <li><b>Off:</b> Disables sorting.</li>
+                <li><b>Inventory:</b> Sorts the player's inventory.</li>
+                <li><b>Chest:</b> Sorts items in chests.</li>
+            </ul>
+        </li>
+        <li><b>SortMode:</b> Determines the sorting criteria:
+            <ul>
+                <li><b>Color:</b> Sorts items by color.</li>
+                <li><b>Type:</b> Sorts items by type.</li>
+                <li><b>Custom:</b> Allows custom sorting rules.</li>
+            </ul>
+        </li>
+        <li><b>Delay:</b> Sets the delay (in seconds) before sorting starts (default: 1).</li>
+        <li><b>ChestLoadDelay:</b> Sets the delay (in seconds) for sorting items in chests (default: 20).</li>
+        <li><b>Active:</b> Toggles whether the module is currently active.</li>
+        <li><b>Render:</b> Displays a visual indicator for sorting if enabled.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module (default: SEMICOLON).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoTrader</b></summary>
+    <p>Automates interactions with villagers and trading windows.</p>
+    <ul>
+        <li><b>Mode:</b> Sets the trading behavior:
+            <ul>
+                <li><b>Whitelist:</b> Only trades with specified villagers.</li>
+                <li><b>Blacklist:</b> Avoids trading with specified villagers.</li>
+            </ul>
+        </li>
+        <li><b>AutoOpen:</b> Automatically opens the trading interface when near a villager.</li>
+        <li><b>Range:</b> Sets the interaction range for villagers (default: 3).</li>
+        <li><b>Rotate:</b> Automatically rotates the player's view toward the target villager.</li>
+        <li><b>AutoClose:</b> Automatically closes the trading interface after trading.</li>
+        <li><b>Delay:</b> Sets the delay (in seconds) between trades (default: 1).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraChest</b></summary>
+    <p>Provides additional options for managing chests and storage.</p>
+    <ul>
+        <li><b>Buttons:</b> Displays extra buttons for chest management if enabled.</li>
+        <li><b>Mode:</b> Sets the behavior for chest interactions:
+            <ul>
+                <li><b>Off:</b> Disables additional chest features.</li>
+                <li><b>Save:</b> Saves the current chest configuration.</li>
+                <li><b>Load:</b> Loads a previously saved chest configuration.</li>
+            </ul>
+        </li>
+        <li><b>Search:</b> Enables searching for items within the chest.</li>
+        <li><b>Filter:</b> Highlights specific items in the chest based on filters.</li>
+        <li><b>ShulkerHighlight:</b> Highlights shulker boxes within the chest inventory.</li>
+        <li><b>Color:</b> Sets the highlight color for filtered items and shulker boxes.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraCraft</b></summary>
+    <p>Automates crafting processes and enhances crafting functionality.</p>
+    <ul>
+        <li><b>AutoCraft:</b> Automatically crafts the specified item.</li>
+        <li><b>Recipe:</b> Specifies the item recipe to craft (e.g., "paper").</li>
+        <li><b>FastCraft:</b> Speeds up the crafting process if enabled.</li>
+        <li><b>Inventory:</b> Uses the player's inventory for crafting materials.</li>
+        <li><b>Delay:</b> Sets the delay (in seconds) between crafting actions (default: 5).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraScreenshot</b></summary>
+    <p>Adds advanced features for managing and uploading screenshots.</p>
+    <ul>
+        <li><b>Mode:</b> Specifies the screenshot behavior:
+            <ul>
+                <li><b>Upload:</b> Automatically uploads screenshots to a configured server.</li>
+                <li><b>Save:</b> Saves screenshots locally to the designated folder.</li>
+            </ul>
+        </li>
+        <li><b>Bind:</b> Assigns a keybind to capture a screenshot.</li>
+    </ul>
+</details>
+<details>
+    <summary><b>ExtraSign</b></summary>
+    <p>Customizes and automates sign creation and management.</p>
+    <ul>
+        <li><b>ColoredSigns:</b> Enables support for colored text on signs.</li>
+        <li><b>AutoSign:</b> Automatically writes a pre-configured message on placed signs.</li>
+        <li><b>Message:</b> Defines the message to write on signs (e.g., "Cannibutter Back At It Again MSG Me DUPES!").</li>
+        <li><b>AutoClose:</b> Automatically closes the sign interface after editing or placing.
+            <ul>
+                <li><b>DateAppend:</b> Adds a timestamp to saved screenshots if enabled.</li>
+                <li><b>Strict:</b> Ensures strict closing of the sign editing interface.</li>
+                <li><b>Bind:</b> Assigns a keybind to toggle AutoClose functionality.</li>
+            </ul>
+        </li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraTab</b></summary>
+    <p>Enhances and customizes the in-game tab list for better visibility and control.</p>
+    <ul>
+        <li><b>Sorting:</b> Adjusts the sorting method of players in the tab list. Options include <i>Normal</i> or other predefined orders.</li>
+        <li><b>Ping:</b> Displays players' ping in the tab list. Options include <i>Normal</i> or customized formats.</li>
+        <li><b>OnlyShow:</b> Filters the tab list to show specific groups:
+            <ul>
+                <li><b>Friends:</b> Displays only friends in the tab list.</li>
+                <li><b>Enemies:</b> Displays only enemies in the tab list.</li>
+            </ul>
+        </li>
+        <li><b>Players:</b> Sets the maximum number of players displayed in the tab list (default: 500).</li>
+        <li><b>MaxHeight:</b> Sets the maximum height for the tab list display (default: 60).</li>
+        <li><b>Toggle:</b> Toggles the visibility of the enhanced tab list.</li>
+        <li><b>Colors:</b> Customizes the colors for different elements of the tab list:
+            <ul>
+                <li><b>Background:</b> Sets the background color of the tab list.</li>
+                <li><b>Item:</b> Sets the color for items displayed in the tab list.</li>
+                <li><b>Names:</b> Sets the color for player names in the tab list.</li>
+                <li><b>Self:</b> Sets the color for your own name in the tab list.</li>
+                <li><b>Friends:</b> Sets the color for friends in the tab list.</li>
+                <li><b>Enemies:</b> Sets the color for enemies in the tab list.</li>
+            </ul>
+        </li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the ExtraTab module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ExtraTooltips</b></summary>
+    <p>Enhances in-game tooltips for various items and blocks, providing additional details and customization options.</p>
+    <ul>
+        <li><b>Maps:</b> Displays additional information about maps in tooltips.
+            <ul>
+                <li><b>Cache:</b> Enables caching for smoother map loading in tooltips.</li>
+                <li><b>Scale:</b> Adjusts the scale of map previews in tooltips (default: 1).</li>
+            </ul>
+        </li>
+        <li><b>Shulkers:</b> Adds detailed information for Shulker Boxes.
+            <ul>
+                <li><b>Locking:</b> Shows locking status of Shulker Boxes.</li>
+                <li><b>Bind:</b> Assigns a keybind to toggle Shulker Box tooltips (default: LEFTSHIFT).</li>
+                <li><b>DynamicColor:</b> Enables dynamic coloring for Shulker Box tooltips.</li>
+                <li><b>Color:</b> Sets the color for Shulker Box tooltips.</li>
+                <li><b>ShowRevertedIllegal:</b> Displays reverted illegal items within Shulker Boxes.</li>
+            </ul>
+        </li>
+        <li><b>EnderChests:</b> Adds detailed information for Ender Chests.
+            <ul>
+                <li><b>Color:</b> Sets the color for Ender Chest tooltips.</li>
+            </ul>
+        </li>
+        <li><b>ChatEmbed:</b> Allows embedding additional information within chat tooltips.
+            <ul>
+                <li><b>Size:</b> Adjusts the size of embedded tooltips in chat (default: 1).</li>
+                <li><b>Enlarge:</b> Assigns a keybind to temporarily enlarge chat tooltips (default: LEFTSHIFT).</li>
+            </ul>
+        </li>
+        <li><b>Books:</b> Enhances tooltips for books.
+            <ul>
+                <li><b>Scale:</b> Adjusts the scale of book previews in tooltips (default: 1).</li>
+            </ul>
+        </li>
+        <li><b>Bees:</b> Displays additional information about bees in tooltips.
+            <ul>
+                <li><b>ComponentData:</b> Shows detailed component data for bees.</li>
+                <li><b>Size:</b> Adjusts the size of bee-related information in tooltips.</li>
+            </ul>
+        </li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the ExtraTooltips module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Gamemode</b></summary>
+    <p>Provides tools for managing specific game mechanics and player interactions based on the selected game mode.</p>
+    <ul>
+        <li><b>Gamemode:</b> Sets the game mode for certain interactions and mechanics (default: Creative).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the Gamemode module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>HitboxIgnore</b></summary>
+    <p>Customizes the interaction with entity hitboxes to enhance specific actions or tools.</p>
+    <ul>
+        <li><b>PickaxeOnly:</b> Ensures only pickaxe interactions are considered.</li>
+        <li><b>RightClickCompatible:</b> Adjusts compatibility for right-click actions.</li>
+        <li><b>Entities:</b> Specifies which entities to ignore or target.
+            <ul>
+                <li><b>Players:</b> Toggles targeting players.</li>
+                <li><b>Crystals:</b> Toggles targeting crystals.</li>
+                <li><b>Hostiles:</b> Toggles targeting hostile entities.</li>
+                <li><b>Passives:</b> Toggles targeting passive entities.</li>
+                <li><b>Neutrals:</b> Toggles targeting neutral entities.</li>
+                <li><b>Vehicles:</b> Toggles targeting vehicles.</li>
+            </ul>
+        </li>
+        <li><b>Blocks:</b> Specifies interaction with blocks based on module settings.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the HitboxIgnore module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>LagReducer</b></summary>
+    <p>Optimizes performance by adjusting specific module behaviors to reduce lag during gameplay.</p>
+    <ul>
+        <li><b>FpsCap:</b> Sets an FPS cap to prevent excessive resource usage (default: 30).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the LagReducer module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>NoForceRotate</b></summary>
+    <p>Prevents forced rotations or adjustments by other modules or mechanics to maintain manual control.</p>
+    <ul>
+        <li><b>Bind:</b> Assigns a keybind to toggle the NoForceRotate module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Notifications</b></summary>
+    <p>Displays various notifications for in-game events and actions.</p>
+    <ul>
+        <li><b>InGame:</b> Toggles notifications to be displayed in the game.</li>
+        <li><b>Queue:</b> Displays queue notifications.</li>
+        <li><b>Damage:</b> Notifies you of damage dealt or received.</li>
+        <li><b>Death:</b> Sends a notification upon player death.</li>
+        <li><b>Disconnect:</b> Alerts you when a player disconnects.</li>
+        <li><b>Mention:</b> Notifies you when your name is mentioned in chat.</li>
+        <li><b>Whisper:</b> Alerts you to incoming private messages.</li>
+        <li><b>TotemPop:</b> Notifies you when a totem activates.</li>
+        <li><b>FocusedCheck:</b> Toggles a check for focus before sending notifications.</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the Notifications module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>PingSpoof</b></summary>
+    <p>Simulates latency to provide a tactical advantage in certain situations.</p>
+    <ul>
+        <li><b>Mode:</b> Sets the type of ping spoofing (default: Spoof).</li>
+        <li><b>Delay:</b> Sets the delay time for the ping spoof (default: 500 ms).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the PingSpoof module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>PortalGui</b></summary>
+    <p>Allows GUI interactions while standing in a portal.</p>
+    <ul>
+        <li><b>Bind:</b> Assigns a keybind to toggle the PortalGui module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>RichPresence</b></summary>
+    <p>Customizes your Discord Rich Presence display for in-game activities.</p>
+    <ul>
+        <li><b>Mode:</b> Sets the type of Rich Presence (default: Basic).</li>
+        <li><b>Delay:</b> Sets the refresh delay for updating Rich Presence (default: 2000 ms).</li>
+        <li><b>Queue:</b> Displays queue-related information in Rich Presence.
+            <ul>
+                <li><b>Priority:</b> Sets the priority for queue notifications.</li>
+            </ul>
+        </li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the RichPresence module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>SkinBlink</b></summary>
+    <p>Cycles through the player's skin layers to create a blinking effect.</p>
+    <ul>
+        <li><b>Mode:</b> Specifies which layers to blink. Options include "All" (default).</li>
+        <li><b>Delay:</b> Sets the delay between skin blinks in milliseconds (default: 100 ms).</li>
+        <li><b>Bind:</b> Assigns a keybind to toggle the SkinBlink module.</li>
+    </ul>
+</details>
+
+</section>
+
+	<section id="movement">
+    <h2>Movement Modules</h2>
+<details>
+    <summary><b>AutoWalk</b></summary>
+    <p>Automatically moves the player forward.</p>
+    <ul>
+        <li>Mode: Configures the walking behavior.</li>
+        <li>OnlyElytra: AutoWalk activates only when wearing an Elytra.</li>
+        <li>PauseOnLag: Pauses walking when lag is detected.</li>
+        <li>Delay: Sets the time delay between movement actions (in ticks).</li>
+        <li>Bind: Assigns a key to toggle AutoWalk.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>BoatFly</b></summary>
+    <p>Allows boats to fly, bypassing gravity and water restrictions.</p>
+    <ul>
+        <li>Speed: Adjusts the flight speed of the boat.</li>
+        <li>Vertical: Sets the boat's vertical flight speed.</li>
+        <li>FixYaw: Corrects yaw rotation to prevent desync issues.</li>
+        <li>Duck: Allows ducking in-flight to avoid obstacles.</li>
+        <li>Strict: Enables strict checks to avoid anti-cheat detection.</li>
+        <li>TicksToPause: Number of ticks to pause after each movement.</li>
+        <li>AntiKick: Prevents server kicks for flying by simulating natural movements.</li>
+        <li>BoatScale: Adjusts the boat's visual scale during flight.</li>
+        <li>Bind: Assigns a key to toggle BoatFly.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>ElytraFly</b></summary>
+    <p>Customizes Elytra flight for better control and anti-cheat bypassing.</p>
+    <ul>
+        <li>Mode: Configures ElytraFly behavior (e.g., Normal, Boost).</li>
+        <li>TakeOff: Automatically starts flying upon jumping.</li>
+        <li>Descending: Enables controlled descending during flight.</li>
+        <li>Timer: Adjusts the tick rate for ElytraFly.</li>
+        <li>AutoRedeploy: Automatically redeploys the Elytra when disabled.</li>
+        <li>HighwayObstaclePass: Optimizes flight for highway-like obstacles.</li>
+        <li>GrimRocket: Configures rocket boosts for flight.</li>
+        <li>GrimDisabler: Disables Grim checks to bypass anti-cheat systems.</li>
+        <li>Bind: Assigns a key to toggle ElytraFly.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>ElytraTweaks</b></summary>
+    <p>Enhances Elytra flight by fixing issues and improving usability.</p>
+    <ul>
+        <li>FixRocketDesync: Resolves desync issues when using rockets.</li>
+        <li>NoBounce: Prevents bouncing upon block collisions.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>EntityControl</b></summary>
+    <p>Gives full control over rideable entities like horses or boats.</p>
+    <ul>
+        <li>Control: Allows movement and direction control.</li>
+        <li>HorseJump: Adjusts the jump strength of horses.</li>
+        <li>BoatFixYaw: Fixes yaw issues while controlling boats.</li>
+        <li>Bind: Assigns a key to toggle EntityControl.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>EntitySpeed</b></summary>
+    <p>Allows you to control and modify the speed of entities.</p>
+    <ul>
+        <li><strong>Speed:</strong> Sets the speed multiplier for entity movement (default: 0.69).</li>
+        <li><strong>Strict:</strong> Ensures compliance with server anti-cheats.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Flight</b></summary>
+    <p>Enables unrestricted flying for the player.</p>
+    <ul>
+        <li>Mode: Configures the flight mode (e.g., Creative).</li>
+        <li>Speed: Adjusts the flight speed.</li>
+        <li>AntiKick: Prevents server kicks by simulating natural movement.</li>
+        <li>Acceleration: Smoothly increases flight speed.</li>
+        <li>MaxSpeed: Sets the maximum flight speed.</li>
+        <li>Bind: Assigns a key to toggle Flight.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>IceSpeed</b></summary>
+    <p>Improves player speed on ice blocks.</p>
+    <ul>
+        <li>Speed: Adjusts the speed multiplier while on ice.</li>
+        <li>Bind: Assigns a key to toggle IceSpeed.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>InventoryMove</b></summary>
+    <p>Allows the player to move while in the inventory GUI.</p>
+    <ul>
+        <li>Mode: Configures the movement behavior (e.g., New Grim).</li>
+        <li>Look: Enables camera movement during inventory use.</li>
+        <li>Screens: Allows interaction with other GUI screens while moving.</li>
+        <li>Bind: Assigns a key to toggle InventoryMove.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Jesus</b></summary>
+    <p>Lets the player walk on water or lava.</p>
+    <ul>
+        <li>Mode: Configures the walking style (e.g., Dolphin).</li>
+        <li>Bind: Assigns a key to toggle Jesus.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>NoFall</b></summary>
+    <p>Prevents fall damage by modifying fall mechanics.</p>
+    <ul>
+        <li>Mode: Configures the anti-fall-damage behavior (e.g., Grim).</li>
+        <li>Distance: Maximum fall distance before NoFall activates.</li>
+        <li>Bind: Assigns a key to toggle NoFall.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>NoSlow</b></summary>
+    <p>Prevents slowdown when performing actions like blocking or eating.</p>
+    <ul>
+        <li><strong>Mode:</strong> Selects the bypass mode (e.g., Grim).</li>
+        <li><strong>Items:</strong> Prevents slowdown with held items.</li>
+        <li><strong>Blocks:</strong> Prevents slowdown when moving around blocks.</li>
+        <li><strong>Sneak:</strong> Allows fast sneaking.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Parkour</b></summary>
+    <p>Enables automatic jumping over blocks.</p>
+    <ul>
+        <li><strong>Slabs:</strong> Determines if the module should handle slabs automatically.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>SafeWalk</b></summary>
+    <p>Prevents falling off edges while moving.</p>
+    <ul>
+        <li><strong>Slabs:</strong> Improves handling for slab edges.</li>
+        <li><strong>Riding:</strong> Enables SafeWalk while riding entities.</li>
+        <li><strong>Sneak:</strong> Maintains sneaking functionality.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Speed</b></summary>
+    <p>Increases player movement speed.</p>
+    <ul>
+        <li><strong>Mode:</strong> Different speed modes (e.g., Strafe).</li>
+        <li><strong>Strict:</strong> Ensures compatibility with server anti-cheat.</li>
+        <li><strong>Timer:</strong> Adjusts movement timing for speed.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Sprint</b></summary>
+    <p>Automatically sprints, allowing faster movement.</p>
+    <ul>
+        <li>Omnidirectional: Enables sprinting in any direction.</li>
+        <li>Strict: Enables stricter checks to bypass anti-cheat.</li>
+        <li>Bind: Assigns a key to toggle Sprint.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Step</b></summary>
+    <p>Allows climbing up blocks without jumping.</p>
+    <ul>
+        <li><strong>Upwards:</strong> Sets the height for stepping upwards.</li>
+        <li><strong>Reverse:</strong> Handles reverse step movements.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>TridentTweaks</b></summary>
+    <p>Modifies trident behavior.</p>
+    <ul>
+        <li><strong>Anywhere:</strong> Allows the trident to be used anywhere.</li>
+        <li><strong>Instant:</strong> Reduces trident cooldown for faster use.</li>
+        <li><strong>Spam:</strong> Enables rapid trident use.</li>
+        <li><strong>GrimDisabler:</strong> Helps bypass anti-cheat systems.</li>
+        <li><strong>Inventory:</strong> Improves trident handling within inventory.</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Velocity</b></summary>
+    <p>Adjusts knockback resistance and movement handling.</p>
+    <ul>
+        <li><strong>Pushing:</strong> Controls push effects from entities or blocks.</li>
+        <li><strong>Mode:</strong> Selects the bypass mode (e.g., New Grim).</li>
+        <li><strong>Horizontal:</strong> Adjusts horizontal knockback resistance (default: 0).</li>
+        <li><strong>Vertical:</strong> Adjusts vertical knockback resistance (default: 0).</li>
+        <li><strong>Bind:</strong> Keybind to activate the module.</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>WaterSpeed</b></summary>
+    <p>Increases movement speed in liquids like water or lava.</p>
+    <ul>
+        <li>Lava: Enables movement speed boost in lava.</li>
+        <li>DepthStriderRequired: Requires Depth Strider enchantment for speed boost.</li>
+        <li>Speed: Sets the base speed multiplier in water.</li>
+        <li>Vertical: Configures vertical movement speed.</li>
+        <li>UpwardsMult: Multiplier for upward movement.</li>
+        <li>DownwardsMult: Multiplier for downward movement.</li>
+        <li>LavaMultiplier: Adjusts the speed boost in lava.</li>
+        <li>Bind: Assigns a key to toggle WaterSpeed.</li>
+    </ul>
+</details>
+</section>
+
+	<section id="player">
+    <h2>Player Modules</h2>
+<details>
+    <summary><b>AntiLevitation</b></summary>
+    <p>Prevents levitation effects caused by Shulker attacks.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the mode of anti-levitation handling (e.g., Remove).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AntiLevitation module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoEat</b></summary>
+    <p>Automatically consumes food to restore health or hunger.</p>
+    <ul>
+        <li><strong>Mode:</strong> Configures the eating mode (e.g., Both).</li>
+        <li><strong>Hunger:</strong> Sets the hunger threshold to start eating (e.g., 14).</li>
+        <li><strong>Health:</strong> Sets the health threshold to start eating (e.g., 8).</li>
+        <li><strong>UntilFull:</strong> Toggles eating until full hunger/health.</li>
+        <li><strong>Return:</strong> Toggles returning to the previous item after eating.</li>
+        <li><strong>Milk:</strong> Toggles drinking milk when necessary.</li>
+        <li><strong>GoldenApples:</strong> Toggles eating golden apples.</li>
+        <li><strong>Chorus:</strong> Toggles eating chorus fruits.</li>
+        <li><strong>Poisonous:</strong> Toggles eating poisonous food.</li>
+        <li><strong>PauseBaritone:</strong> Pauses Baritone while eating.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AutoEat module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoFish</b></summary>
+    <p>Automates fishing by detecting and reeling in fish.</p>
+    <ul>
+        <li><strong>AutoDisable:</strong> Toggles automatic disabling after fishing.</li>
+        <li><strong>CastDelay:</strong> Sets the delay between casting and reeling in (e.g., 20).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AutoFish module (e.g., F).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoMine</b></summary>
+    <p>Automatically mines targeted blocks.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the mining mode (e.g., Continuous).</li>
+        <li><strong>Focused:</strong> Toggles focused mining on specific blocks.</li>
+        <li><strong>ThroughEntities:</strong> Toggles mining through entities.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AutoMine module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoTool</b></summary>
+    <p>Automatically selects the best tool for the job.</p>
+    <ul>
+        <li><strong>Attacking:</strong> Toggles using tools while attacking.</li>
+        <li><strong>DisableShields:</strong> Toggles disabling shields for tool use.</li>
+        <li><strong>RequireAura:</strong> Requires KillAura to activate AutoTool.</li>
+        <li><strong>Mining:</strong> Configures mining preferences:</li>
+        <ul>
+            <li><strong>Prefer:</strong> Sets preferred tool enchantments (e.g., Silktouch).</li>
+        </ul>
+        <li><strong>Return:</strong> Toggles returning to the previous tool after mining.</li>
+        <li><strong>Inventory:</strong> Configures inventory options:</li>
+        <ul>
+            <li><strong>MinDurability:</strong> Sets the minimum durability to use a tool (e.g., 5).</li>
+            <li><strong>Delay:</strong> Sets a delay for tool switching (e.g., 0).</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AutoTool module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoWither</b></summary>
+    <p>Automatically places blocks to summon a Wither boss.</p>
+    <ul>
+        <li><strong>Delay:</strong> Sets the delay between block placements (e.g., 0).</li>
+        <li><strong>SilentSwap:</strong> Toggles silent item swapping for summoning.</li>
+        <li><strong>StrictDir:</strong> Toggles strict placement direction handling.</li>
+        <li><strong>Rotate:</strong> Toggles player rotation for block placement.</li>
+        <li><strong>Speed:</strong> Sets the placement speed (e.g., 180).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the AutoWither module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Blink</b></summary>
+    <p>Simulates disconnection by pausing entity updates.</p>
+    <ul>
+        <li><strong>TimeLimit:</strong> Sets the time limit for Blink (e.g., 0).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Blink module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ChorusControl</b></summary>
+    <p>Enhances control when teleporting using Chorus Fruit.</p>
+    <ul>
+        <li><strong>Accept:</strong> Configures teleport acceptance (e.g., ENTER).</li>
+        <li><strong>Others:</strong> Additional rendering settings for specific entities/items:</li>
+        <ul>
+            <li><strong>Box:</strong> Toggles box rendering around entities.</li>
+            <li><strong>Tracer:</strong> Toggles tracer lines to entities or items.</li>
+            <li><strong>Color:</strong> Sets the color for tracers (e.g., Green).</li>
+            <li><strong>Bind:</strong> Sets a keybind to toggle the Others rendering (e.g., NONE).</li>
+        </ul>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FastUse</b></summary>
+    <p>Speeds up the usage of items such as food, potions, and experience bottles.</p>
+    <ul>
+        <li><strong>Delay:</strong> Sets the delay between item uses (e.g., 0).</li>
+        <li><strong>EXP:</strong> Manages the throwing of experience bottles:</li>
+        <ul>
+            <li><strong>Pitch:</strong> Adjusts the angle for throwing EXP bottles.</li>
+            <li><strong>Throw:</strong> Sets a keybind for throwing EXP bottles (e.g., NONE).</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the FastUse module (e.g., NONE).</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>GhostHand</b></summary>
+    <p>Allows interaction with blocks/entities through walls or obstructions.</p>
+    <ul>
+        <li><strong>Render:</strong> Toggles rendering of the GhostHand interaction range.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the GhostHand module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>InventoryCleaner</b></summary>
+    <p>Automatically removes unwanted items from your inventory.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the cleaning mode (e.g., Blacklist).</li>
+        <li><strong>Delay:</strong> Sets the delay between item deletions (e.g., 1).</li>
+        <li><strong>Inventory:</strong> Toggles cleaning of the inventory.</li>
+        <li><strong>IgnoreHotbar:</strong> Ignores items in the hotbar during cleaning.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the InventoryCleaner module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>MiddleClick</b></summary>
+    <p>Allows additional functionality when using the middle mouse button (mouse wheel click).</p>
+    <ul>
+        <li><strong>Friend:</strong> Toggles the ability to add players as friends by middle-clicking them.</li>
+        <li><strong>Notification:</strong> Sends a notification when a player is added as a friend.</li>
+        <li><strong>Pearl:</strong> Configures the use of ender pearls via middle-click.</li>
+        <ul>
+            <li><strong>Delay:</strong> Sets the delay before throwing a pearl (e.g., 0.2).</li>
+        </ul>
+        <li><strong>Firework:</strong> Configures firework rocket usage via middle-click.</li>
+        <ul>
+            <li><strong>Delay:</strong> Sets the delay before using a firework (e.g., 0.2).</li>
+        </ul>
+        <li><strong>BlockNBT:</strong> Allows middle-clicking blocks to read their NBT data.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the MiddleClick module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>MultiTask</b></summary>
+    <p>Enables performing multiple actions simultaneously, such as mining and eating.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the MultiTask module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>PacketLogger</b></summary>
+    <p>Logs packets sent between the client and server for debugging or analysis.</p>
+    <ul>
+        <li><strong>Verbose:</strong> Toggles detailed logging of packet information.</li>
+        <li><strong>ChatOutput:</strong> Displays logged packets in the chat.</li>
+        <li><strong>FileOutput:</strong> Saves logged packets to a file for later analysis.</li>
+        <li><strong>Clientbound:</strong> Displays a list of packets received from the server:</li>
+        <ul>
+            <li><strong>add_entity</strong></li>
+            <li><strong>add_experience_orb</strong></li>
+            <li><strong>animate</strong></li>
+            <li><strong>award_stats</strong></li>
+            <li><strong>block_changed_ack</strong></li>
+            <li><strong>block_destruction</strong></li>
+            <li><strong>block_entity_data</strong></li>
+            <li><strong>block_event</strong></li>
+            <li><strong>block_update</strong></li>
+            <li><strong>boss_event</strong></li>
+            <li><strong>bundle</strong></li>
+            <li><strong>bundle_delimiter</strong></li>
+            <li><strong>change_difficulty</strong></li>
+            <li><strong>chunk_batch_finish</strong></li>
+            <li><strong>chunk_batch_start</strong></li>
+            <li><strong>chunks_biomes</strong></li>
+            <li><strong>clear_titles</strong></li>
+            <li><strong>command_suggestions</strong></li>
+            <li><strong>commands</strong></li>
+            <li><strong>container_close</strong></li>
+            <li><strong>container_set_content</strong></li>
+            <li><strong>container_set_data</strong></li>
+            <li><strong>container_set_slot</strong></li>
+            <li><strong>cooldown</strong></li>
+            <li><strong>custom_chat_commands</strong></li>
+            <li><strong>damage_event</strong></li>
+            <li><strong>debug_sample</strong></li>
+            <li><strong>delete_chat</strong></li>
+            <li><strong>disguised_chat</strong></li>
+            <li><strong>entity_event</strong></li>
+            <li><strong>explode</strong></li>
+            <li><strong>forget_level_chunk</strong></li>
+            <li><strong>game_event</strong></li>
+            <li><strong>horse_screen_open</strong></li>
+            <li><strong>hurt_animation</strong></li>
+            <li><strong>initialize_border</strong></li>
+            <li><strong>level_chunk_with_entities</strong></li>
+            <li><strong>level_event</strong></li>
+            <li><strong>level_particles</strong></li>
+            <li><strong>light_update</strong></li>
+            <li><strong>login</strong></li>
+            <li><strong>map_item_data</strong></li>
+            <li><strong>merchant_offers</strong></li>
+            <li><strong>move_entity_pos</strong></li>
+            <li><strong>move_entity_pos_rot</strong></li>
+            <li><strong>move_vehicle</strong></li>
+            <li><strong>open_book</strong></li>
+            <li><strong>open_screen</strong></li>
+            <li><strong>open_sign_editor</strong></li>
+            <li><strong>place_ghost_recipe</strong></li>
+            <li><strong>player_abilities</strong></li>
+            <li><strong>player_chat</strong></li>
+            <li><strong>player_combat_end</strong></li>
+            <li><strong>player_combat_enter</strong></li>
+            <li><strong>player_combat_kill</strong></li>
+            <li><strong>player_info_remove</strong></li>
+            <li><strong>player_info_update</strong></li>
+            <li><strong>player_look_at</strong></li>
+            <li><strong>player_position</strong></li>
+            <li><strong>projectile_power</strong></li>
+            <li><strong>recipe</strong></li>
+            <li><strong>remove_entities</strong></li>
+            <li><strong>remove_mob_effect</strong></li>
+            <li><strong>reset_score</strong></li>
+            <li><strong>respawn</strong></li>
+            <li><strong>rotate_head</strong></li>
+            <li><strong>section_blocks_update</strong></li>
+            <li><strong>select_advancement_tab</strong></li>
+            <li><strong>server_data</strong></li>
+            <li><strong>set_action_bar_text</strong></li>
+            <li><strong>set_border_center</strong></li>
+            <li><strong>set_border_lerp_size</strong></li>
+            <li><strong>set_border_size</strong></li>
+            <li><strong>set_border_warning_distance</strong></li>
+            <li><strong>set_camera</strong></li>
+            <li><strong>set_carried_item</strong></li>
+            <li><strong>set_chunk_cache</strong></li>
+            <li><strong>set_default_spawn_position</strong></li>
+            <li><strong>set_display_objective</strong></li>
+            <li><strong>set_entity_data</strong></li>
+            <li><strong>set_entity_motion</strong></li>
+            <li><strong>set_equipment</strong></li>
+            <li><strong>set_experience</strong></li>
+            <li><strong>set_health</strong></li>
+            <li><strong>set_objective</strong></li>
+            <li><strong>set_passengers</strong></li>
+            <li><strong>set_player_team</strong></li>
+            <li><strong>set_score</strong></li>
+            <li><strong>set_simulation_distance</strong></li>
+            <li><strong>set_subtitle_text</strong></li>
+            <li><strong>set_time</strong></li>
+            <li><strong>set_title_text</strong></li>
+            <li><strong>set_titles_animation</strong></li>
+            <li><strong>sound</strong></li>
+            <li><strong>sound_entity</strong></li>
+            <li><strong>start_configuration</strong></li>
+            <li><strong>stop_sound</strong></li>
+            <li><strong>system_chat</strong></li>
+            <li><strong>tab_list</strong></li>
+            <li><strong>tag_query</strong></li>
+            <li><strong>take_item_entity</strong></li>
+            <li><strong>teleport_entity</strong></li>
+            <li><strong>ticking_state</strong></li>
+            <li><strong>update_advancements</strong></li>
+            <li><strong>update_attributes</strong></li>
+            <li><strong>update_mob_effect</strong></li>
+            <li><strong>update_recipes</strong></li>
+        </ul>
+        <li><strong>Serverbound:</strong> Displays a list of packets sent from the client to the server.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the PacketLogger module (e.g., NONE).</li>
+    </ul>
+</details>
+
+
+<details>
+    <summary><b>Phase</b></summary>
+    <p><strong>Description:</strong> Allows the player to pass through blocks using specific conditions or items.</p>
+    <ul>
+        <li><strong>Mode:</strong> Pearl (Uses ender pearls for phase-related actions).</li>
+        <li><strong>Throw:</strong> Configures pearl throwing (bind to a key for manual control).</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>PortalGodMode</b></summary>
+    <p><strong>Description:</strong> Activates invulnerability while in a nether portal.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle PortalGodMode.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Reach</b></summary>
+    <p><strong>Description:</strong> Extends the player's reach for interactions and attacks.</p>
+    <ul>
+        <li><strong>Mode:</strong> Normal (Default interaction mode for extended reach).</li>
+        <li><strong>EntityReach:</strong> Adjusts how far you can interact with entities (default: 6).</li>
+        <li><strong>BlockReach:</strong> Adjusts the block interaction range (default: 6).</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>RotationLock</b></summary>
+    <p><strong>Description:</strong> Locks the player's camera to a specific orientation.</p>
+    <ul>
+        <li><strong>Yaw:</strong> Adjusts the horizontal angle of the lock.</li>
+        <li><strong>Pitch:</strong> Adjusts the vertical angle of the lock.</li>
+        <li><strong>WaypointLock:</strong> Locks the camera toward specific waypoints.</li>
+        <li><strong>Hard:</strong> Determines if the lock is strict or can be overridden slightly.</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Swing</b></summary>
+    <p><strong>Description:</strong> Modifies how swing animations are displayed.</p>
+    <ul>
+        <li><strong>NoSwing:</strong> Disables swing animations.</li>
+        <li><strong>Offhand:</strong> Configures swing animations for offhand items.</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>TickShift</b></summary>
+    <p><strong>Description:</strong> Adjusts tick rate manipulation for faster actions or exploits.</p>
+    <ul>
+        <li><strong>Mode:</strong> Normal (Standard tick shift mode).</li>
+        <li><strong>Ticks:</strong> Number of ticks to skip or accelerate.</li>
+        <li><strong>AutoDisable:</strong> Automatically disables the module under certain conditions.</li>
+        <li><strong>2b2t:</strong> Specific mode optimized for 2b2t server mechanics.</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>XCarry</b></summary>
+    <p><strong>Description:</strong> Expands inventory capabilities by allowing items in crafting slots.</p>
+    <ul>
+        <li><strong>Cancel:</strong> Cancels item movement under certain conditions.</li>
+        <li><strong>ShiftClick:</strong> Allows items to be moved via shift-clicking.</li>
+        <li><strong>ArmorSlots:</strong> Allows equipment to be placed in non-traditional slots.</li>
+        <li><strong>Bind:</strong> Sets a keybind for the module.</li>
+    </ul>
+</details>
+
+</section>
+
+	<section id="render">
+    <h2>Render Modules</h2>
+<details>
+    <summary><b>BlockOutline</b></summary>
+    <p>Renders an outline around selected blocks.</p>
+    <ul>
+        <li><strong>Thickness:</strong> Sets the thickness of the block outline (e.g., 1.5).</li>
+        <li><strong>Depth:</strong> Toggles rendering depth for outlines.</li>
+        <li><strong>Fill:</strong> Toggles filling the block outline.</li>
+        <li><strong>Color:</strong> Customizes the outline color.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the BlockOutline module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Borders</b></summary>
+    <p>Highlights specific map boundaries like chunks, map art, and regions.</p>
+    <ul>
+        <li><strong>YLevel:</strong> Sets the Y-level for rendering borders (e.g., Void).</li>
+        <li><strong>Chunk:</strong> Configures chunk border settings:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the border color (e.g., Red).</li>
+            <li><strong>Fill:</strong> Toggles filling chunk borders.</li>
+            <li><strong>Outline:</strong> Toggles outlining chunk borders.</li>
+        </ul>
+        <li><strong>MapArt:</strong> Configures map art border settings:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the border color (e.g., Yellow).</li>
+            <li><strong>Fill:</strong> Toggles filling map art borders.</li>
+            <li><strong>Outline:</strong> Toggles outlining map art borders.</li>
+        </ul>
+        <li><strong>Region:</strong> Configures region border settings:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the border color (e.g., Blue).</li>
+            <li><strong>Fill:</strong> Toggles filling region borders.</li>
+            <li><strong>Outline:</strong> Toggles outlining region borders.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Borders module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>BossStack</b></summary>
+    <p>Configures the display of boss bars.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the stacking mode for boss bars (e.g., Stack).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the BossStack module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>BreadCrumbs</b></summary>
+    <p>Leaves a trail to show your movement path.</p>
+    <ul>
+        <li><strong>Active:</strong> Toggles the breadcrumbs feature.</li>
+        <li><strong>Width:</strong> Sets the trail width (e.g., 1).</li>
+        <li><strong>Limit:</strong> Sets the maximum length of the trail (e.g., 500).</li>
+        <li><strong>Color:</strong> Configures the trail color.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the BreadCrumbs module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>BreakESP</b></summary>
+    <p>Highlights blocks being broken by players.</p>
+    <ul>
+        <li><strong>IgnoreSelf:</strong> Ignores the player's own breaking actions.</li>
+        <li><strong>Mode:</strong> Sets the highlight mode (e.g., In).</li>
+        <li><strong>StartColor:</strong> Sets the starting color of the highlight.</li>
+        <li><strong>EndColor:</strong> Sets the ending color of the highlight.</li>
+        <li><strong>Fill:</strong> Toggles filling the block highlight.</li>
+        <li><strong>Outline:</strong> Toggles outlining the block highlight.</li>
+        <li><strong>Width:</strong> Sets the outline width (e.g., 2).</li>
+        <li><strong>Static:</strong> Toggles static highlights for breaking blocks.</li>
+        <li><strong>DepthTest:</strong> Toggles depth testing for rendering highlights.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the BreakESP module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Chams</b></summary>
+    <p>Highlights entities through walls with a customizable overlay.</p>
+    <ul>
+        <li><strong>Fill Settings:</strong> Configures the fill style of chams.</li>
+        <li><strong>ColorMode:</strong> Sets the color mode for chams (e.g., Static).</li>
+        <li><strong>Alpha:</strong> Adjusts the transparency of the chams (e.g., 42).</li>
+        <li><strong>Entities:</strong> Configures which entities to apply chams to:</li>
+        <ul>
+            <li><strong>Players:</strong> Toggles chams for players.</li>
+            <li><strong>Self:</strong> Toggles chams for the player.</li>
+            <li><strong>Hostiles:</strong> Toggles chams for hostile mobs.</li>
+            <li><strong>Passives:</strong> Toggles chams for passive mobs.</li>
+            <li><strong>Neutrals:</strong> Toggles chams for neutral mobs.</li>
+            <li><strong>Vehicles:</strong> Toggles chams for vehicles.</li>
+            <li><strong>Items:</strong> Toggles chams for items.</li>
+            <li><strong>Projectiles:</strong> Toggles chams for projectiles.</li>
+            <li><strong>Others:</strong> Toggles chams for miscellaneous entities.</li>
+            <li><strong>EndCrystals:</strong> Toggles chams for End Crystals.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Chams module (e.g., NONE).</li>
+    </ul>
+</details>
+
+ <details>
+    <summary><b>Crosshair</b></summary>
+    <p>Customizes the in-game crosshair.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the crosshair mode (e.g., CSGO).</li>
+        <li><strong>Dynamic:</strong> Toggles dynamic crosshair resizing.</li>
+        <li><strong>Length:</strong> Adjusts the length of the crosshair lines (e.g., 4).</li>
+        <li><strong>Width:</strong> Sets the width of the crosshair lines (e.g., 1).</li>
+        <li><strong>Gap:</strong> Adjusts the gap between the crosshair lines (e.g., 1).</li>
+        <li><strong>Color:</strong> Configures the crosshair color.</li>
+        <li><strong>Outline:</strong> Toggles outlining for the crosshair.</li>
+        <li><strong>HOffset:</strong> Adjusts horizontal offset (e.g., 0).</li>
+        <li><strong>VOffset:</strong> Adjusts vertical offset (e.g., 0).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Crosshair module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ESP</b></summary>
+    <p>Highlights specific entities, storages, and items for better visibility.</p>
+    <ul>
+        <li><strong>Entities:</strong> Configures highlighting for entities.</li>
+        <li><strong>Storages:</strong> Toggles highlighting for storage blocks like chests and barrels.</li>
+        <li><strong>ItemNames:</strong> Displays the names of highlighted items.</li>
+        <li><strong>Light:</strong> Toggles highlighting of light-emitting blocks or entities.</li>
+        <li><strong>Tunnels:</strong> Highlights tunnels or underground paths.</li>
+        <li><strong>Box Settings:</strong> Configures the box display settings for highlighted objects.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the ESP module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FreeLook</b></summary>
+    <p>Allows the player to move their camera freely without affecting movement.</p>
+    <ul>
+        <li><strong>Usage:</strong> Toggles FreeLook activation (e.g., Toggle).</li>
+        <li><strong>Camera:</strong> Sets the camera mode (e.g., Third Person).</li>
+        <li><strong>Smooth:</strong> Toggles smooth camera transitions.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle FreeLook (e.g., COMMA).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Freecam</b></summary>
+    <p>Allows the player to move their camera freely, disconnected from the character.</p>
+    <ul>
+        <li><strong>Speed:</strong> Adjusts the camera movement speed (e.g., 1).</li>
+        <li><strong>Spectate:</strong> Toggles spectating mode in Freecam.</li>
+        <li><strong>Control:</strong> Sets controls for camera movement (e.g., NONE).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle Freecam (e.g., BACKSLASH).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FullBright</b></summary>
+    <p>Maximizes brightness levels for better visibility in dark areas.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the FullBright module (e.g., NONE).</li>
+    </ul>
+</details>
+
+    <details>
+        <summary><b>Hitmarkers</b></summary>
+        <p>Displays a visual indicator when hitting an entity.</p>
+    </details>
+<details>
+    <summary><b>HoleESP</b></summary>
+    <p>Highlights safe holes for PvP or escape purposes.</p>
+    <ul>
+        <li><strong>Range:</strong> Sets the detection range (e.g., 6).</li>
+        <li><strong>Height:</strong> Sets the height of the highlight (e.g., 1).</li>
+        <li><strong>Outline:</strong> Toggles outlines for highlighted holes.</li>
+        <li><strong>Glow:</strong> Toggles glowing highlights for holes.</li>
+        <li><strong>Doubles:</strong> Toggles detection of double-sized holes.</li>
+        <li><strong>ObsidianColor:</strong> Configures the color for obsidian holes (e.g., Red).</li>
+        <li><strong>BedrockColor:</strong> Configures the color for bedrock holes (e.g., Green).</li>
+        <li><strong>CityESP:</strong> Highlights cityable holes.</li>
+        <li><strong>VoidESP:</strong> Highlights void areas.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the HoleESP module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>LogoutSpots</b></summary>
+    <p>Highlights locations where players have logged out.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the display mode (e.g., Coords).</li>
+        <li><strong>Message:</strong> Toggles chat messages for logout spots.</li>
+        <li><strong>Render:</strong> Toggles rendering of logout spots.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the LogoutSpots module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Nametags</b></summary>
+    <p>Customizes the nametags displayed above players or entities.</p>
+    <ul>
+        <li><strong>Nameplate:</strong> Toggles the nameplate display.</li>
+        <li><strong>Items:</strong> Toggles the display of items on nametags.</li>
+        <li><strong>ItemName:</strong> Configures the item name display on nametags.</li>
+        <li><strong>Scale:</strong> Adjusts the size of nametags (e.g., 1.5).</li>
+        <li><strong>DistanceScaling:</strong> Toggles scaling of nametags based on distance.</li>
+        <li><strong>CustomFont:</strong> Enables a custom font for nametags.</li>
+        <li><strong>MultiLine:</strong> Toggles multiline display for nametags.</li>
+        <li><strong>Targets:</strong> Highlights specific targets on nametags.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Nametags module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>NoRender</b></summary>
+    <p>Prevents rendering of certain visual effects or elements to reduce distractions or improve performance.</p>
+    <ul>
+        <li><strong>Player:</strong> Configures rendering options related to the player:</li>
+        <ul>
+            <li><strong>Overlays:</strong> Toggles visual overlays (e.g., fire, water).</li>
+            <li><strong>Bobbing:</strong> Disables camera bobbing.</li>
+            <li><strong>Hurtcam:</strong> Disables the hurt camera effect when damaged.</li>
+            <li><strong>Blindness:</strong> Prevents the rendering of blindness effects.</li>
+            <li><strong>TotemPop:</strong> Disables the visual effect when a Totem of Undying is used.</li>
+        </ul>
+        <li><strong>UI:</strong> Configures user interface elements:</li>
+        <ul>
+            <li><strong>Background:</strong> Disables rendering of UI backgrounds.</li>
+            <li><strong>Scoreboard:</strong> Disables rendering of the scoreboard.</li>
+            <li><strong>PotionOverlay:</strong> Disables potion effect overlays.</li>
+        </ul>
+        <li><strong>Entities:</strong> Configures rendering options for entities:</li>
+        <ul>
+            <li><strong>Armor:</strong> Disables rendering of armor on entities.</li>
+            <li><strong>ItemFrames:</strong> Configures rendering for item frames:</li>
+            <ul>
+                <li><strong>OccludeDistance:</strong> Sets the distance to occlude item frames (e.g., 1).</li>
+            </ul>
+            <li><strong>Entity:</strong> Disables rendering of specific entities.</li>
+            <li><strong>Item:</strong> Disables rendering of dropped items.</li>
+        </ul>
+        <li><strong>FallingBlocks:</strong> Disables rendering of falling blocks.</li>
+        <li><strong>Items:</strong> Toggles rendering of items in the world.</li>
+        <li><strong>RidingEntity:</strong> Disables rendering of entities the player is riding.</li>
+        <li><strong>ArmorStands:</strong> Toggles rendering of armor stands.</li>
+        <li><strong>Projectiles:</strong> Toggles rendering of projectiles (e.g., arrows).</li>
+        <li><strong>XP:</strong> Disables rendering of XP orbs.</li>
+        <li><strong>World:</strong> Configures rendering options for world elements:</li>
+        <ul>
+            <li><strong>Weather:</strong> Disables rendering of weather effects (e.g., rain, snow).</li>
+            <li><strong>Fog:</strong> Disables rendering of fog.</li>
+            <li><strong>CaveCulling:</strong> Enables or disables culling for cave systems.</li>
+            <li><strong>BlockEntityLimit:</strong> Sets a limit for rendered block entities.</li>
+        </ul>
+        <li><strong>Particles:</strong> Configures rendering options for particles:</li>
+        <ul>
+            <li><strong>Fireworks:</strong> Disables rendering of fireworks particles.</li>
+            <li><strong>Barriers:</strong> Toggles rendering of barrier blocks.</li>
+            <li><strong>Explosions:</strong> Disables rendering of explosion particles.</li>
+            <li><strong>BlockBreak:</strong> Disables rendering of block-breaking animations.</li>
+            <li><strong>Eating:</strong> Disables rendering of eating particles.</li>
+            <li><strong>Criticals:</strong> Disables rendering of critical hit particles.</li>
+            <li><strong>PotionEffects:</strong> Disables rendering of potion effect particles.</li>
+            <li><strong>TotemPops:</strong> Disables rendering of Totem of Undying particles.</li>
+            <li><strong>Sprinting:</strong> Disables rendering of sprinting particles.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the NoRender module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>RainbowEnchant</b></summary>
+    <p>Customizes the appearance of enchanted item effects with a rainbow color scheme.</p>
+    <ul>
+        <li><strong>Color:</strong> Sets the primary color for the enchantment effect (e.g., Orange).</li>
+        <li><strong>Strong:</strong> Toggles stronger or more vibrant effects.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the RainbowEnchant module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>RangeCircle</b></summary>
+    <p>Displays a circular range indicator around the player.</p>
+    <ul>
+        <li><strong>Radius:</strong> Sets the radius of the circle (e.g., 2.95).</li>
+        <li><strong>Thickness:</strong> Adjusts the thickness of the circle outline (e.g., 2).</li>
+        <li><strong>Morph:</strong> Toggles morphing animations for the range circle.</li>
+        <li><strong>Others:</strong> Configures additional settings:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the circle's color (e.g., Orange).</li>
+            <li><strong>RainbowMode:</strong> Toggles dynamic rainbow color effects for the circle.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the RangeCircle module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Search</b></summary>
+    <p>Highlights specific blocks and entities in the environment for easy identification.</p>
+    <ul>
+        <li><strong>Blocks:</strong> Configures block search settings:</li>
+        <ul>
+            <li><strong>Range:</strong> Sets the search range for blocks (e.g., 0).</li>
+            <li><strong>Alert:</strong> Toggles alerts for found blocks.</li>
+            <li><strong>Sound:</strong> Toggles sound alerts when blocks are found.</li>
+            <li><strong>IllegalBedrock:</strong> Highlights illegal bedrock placements.</li>
+            <li><strong>IgnoreNaturalChests:</strong> Ignores naturally generated chests in the search.</li>
+            <li><strong>IgnoreSingleChest:</strong> Ignores single chests in the search.</li>
+        </ul>
+        <li><strong>Entities:</strong> Configures entity search settings:</li>
+        <ul>
+            <li><strong>Range:</strong> Sets the search range for entities (e.g., 0).</li>
+            <li><strong>Alert:</strong> Toggles alerts for found entities.</li>
+            <li><strong>Sound:</strong> Toggles sound alerts when entities are found.</li>
+        </ul>
+        <li><strong>Render Settings:</strong> Configures the display of search results:</li>
+        <ul>
+            <li><strong>Box:</strong> Toggles the box display for highlighted blocks/entities.</li>
+            <li><strong>Fill:</strong> Toggles filling the box highlight.</li>
+            <li><strong>Outline:</strong> Toggles the outline for the box highlight.</li>
+            <li><strong>Width:</strong> Sets the width of the box outline (e.g., 2).</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Search module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Tracers</b></summary>
+    <p>Draws lines from the player to entities or items for easier tracking.</p>
+    <ul>
+        <li><strong>ColorMode:</strong> Adjusts the color mode for tracers (e.g., Distance).</li>
+        <li><strong>Transparency:</strong> Sets the transparency level of the tracer lines (e.g., 255).</li>
+        <li><strong>HideF1:</strong> Hides tracers when F1 (hide HUD) is active.</li>
+        <li><strong>Targets:</strong> Configures the tracer targets:</li>
+        <ul>
+            <li><strong>Players:</strong> Toggles tracers for players.</li>
+            <li><strong>Friends:</strong> Toggles tracers for friends.</li>
+            <li><strong>Hostiles:</strong> Toggles tracers for hostile mobs.</li>
+            <li><strong>Passives:</strong> Toggles tracers for passive mobs.</li>
+            <li><strong>Neutrals:</strong> Toggles tracers for neutral mobs.</li>
+            <li><strong>Vehicles:</strong> Toggles tracers for vehicles.</li>
+            <li><strong>Crystals:</strong> Toggles tracers for End Crystals.</li>
+            <li><strong>Items:</strong> Toggles tracers for dropped items.</li>
+        </ul>
+        <li><strong>Spine:</strong> Toggles spine tracers for better visualization.</li>
+        <li><strong>Thickness:</strong> Adjusts the tracer line thickness (e.g., 1).</li>
+        <li><strong>Target:</strong> Sets the target tracer position (e.g., Feet).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Tracers module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Trajectories</b></summary>
+    <p>Displays the flight path of projectiles.</p>
+    <ul>
+        <li><strong>Prediction:</strong> Configures trajectory prediction settings.</li>
+        <li><strong>Targets:</strong> Configures trajectory visibility for specific targets:</li>
+        <ul>
+            <li><strong>Players:</strong> Toggles trajectories for players.</li>
+            <li><strong>Hostiles:</strong> Toggles trajectories for hostile mobs.</li>
+        </ul>
+        <li><strong>Airborne:</strong> Toggles trajectories for airborne projectiles:</li>
+        <ul>
+            <li><strong>Arrows:</strong> Toggles arrow trajectories.</li>
+            <li><strong>Fireballs:</strong> Toggles fireball trajectories.</li>
+            <li><strong>Pearls:</strong> Toggles Ender Pearl trajectories.</li>
+        </ul>
+        <li><strong>BowDraw:</strong> Displays trajectory while drawing a bow.</li>
+        <li><strong>Target:</strong> Configures target visualization settings.</li>
+        <li><strong>Render Settings:</strong> Configures trajectory rendering:</li>
+        <ul>
+            <li><strong>Fill:</strong> Toggles fill rendering for trajectories.</li>
+            <li><strong>Outline:</strong> Toggles outline rendering for trajectories.</li>
+            <li><strong>Width:</strong> Adjusts the outline width (e.g., 2).</li>
+            <li><strong>Color:</strong> Sets the trajectory color.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Trajectories module (e.g., NONE).</li>
+    </ul>
+</details>
+
+ <details>
+    <summary><b>ViewClip</b></summary>
+    <p>Disables clipping of the player's view to enhance visibility.</p>
+    <ul>
+        <li><strong>Distance:</strong> Configures the clipping distance.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the ViewClip module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ViewModel</b></summary>
+    <p>Customizes the player's hand and held item rendering.</p>
+    <ul>
+        <li><strong>Shader:</strong> Configures shader settings:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the shader color.</li>
+            <li><strong>RainbowGradient:</strong> Toggles rainbow gradient effects.</li>
+            <li><strong>Fill:</strong> Toggles fill rendering.</li>
+            <li><strong>Outline:</strong> Toggles outline rendering.</li>
+        </ul>
+        <li><strong>FOV:</strong> Adjusts the field of view (e.g., 100).</li>
+        <li><strong>Hands:</strong> Configures hand rendering settings:</li>
+        <ul>
+            <li><strong>Sway:</strong> Toggles hand sway animations.</li>
+            <li><strong>Shadow:</strong> Toggles hand shadows.</li>
+        </ul>
+        <li><strong>Left:</strong> Configures the left hand:</li>
+        <ul>
+            <li><strong>Scale:</strong> Adjusts the left hand scale.</li>
+            <li><strong>Rotate:</strong> Adjusts the left hand rotation.</li>
+            <li><strong>Offset:</strong> Adjusts the left hand position offset.</li>
+        </ul>
+        <li><strong>Right:</strong> Configures the right hand:</li>
+        <ul>
+            <li><strong>Scale:</strong> Adjusts the right hand scale.</li>
+            <li><strong>Rotate:</strong> Adjusts the right hand rotation.</li>
+            <li><strong>Offset:</strong> Adjusts the right hand position offset.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the ViewModel module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Xray</b></summary>
+    <p>Highlights specific blocks to make mining easier.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Xray module (e.g., X).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Zoom</b></summary>
+    <p>Allows zooming in for better precision or visibility.</p>
+    <ul>
+        <li><strong>Usage:</strong> Sets the zoom mode (e.g., Hold).</li>
+        <li><strong>Zoom:</strong> Adjusts the zoom level (e.g., 2).</li>
+        <li><strong>Smooth:</strong> Toggles smooth zoom transitions.</li>
+        <li><strong>Reset:</strong> Toggles zoom reset functionality.</li>
+        <li><strong>Scroll:</strong> Enables zoom adjustment using the scroll wheel.</li>
+        <li><strong>Cinematic:</strong> Toggles cinematic camera effects while zooming.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Zoom module (e.g., Z).</li>
+    </ul>
+</details>
+
+</section>
+
+	<section id="world">
+    <h2>World Modules</h2>
+	
+<details>
+    <summary><b>AirPlace</b></summary>
+    <p>Allows you to place blocks in mid-air.</p>
+    <ul>
+        <li><strong>Render:</strong> Toggles whether to render the block being placed.</li>
+        <li><strong>Color:</strong> Customizes the color of the rendered block for better visibility.</li>
+        <li><strong>Bind:</strong> Sets a keybind to quickly toggle the AirPlace module.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>AutoTunnel</b></summary>
+    <p>Automatically digs tunnels in the specified direction.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the tunneling mode (e.g., Normal).</li>
+        <li><strong>Height:</strong> Configures the height of the tunnel (e.g., 2 blocks).</li>
+        <li><strong>Width:</strong> Configures the width of the tunnel (e.g., 1 block).</li>
+        <li><strong>Range:</strong> Sets the maximum range for tunneling (e.g., 4.5 blocks).</li>
+        <li><strong>Delay:</strong> Adjusts the delay between tunneling actions (e.g., 1 tick).</li>
+        <li><strong>WhileMoving:</strong> Enables tunneling only while the player is moving.</li>
+        <li><strong>Rotate:</strong> Adjusts the player's orientation to face the target block.</li>
+        <li><strong>Render:</strong> Toggles visualization of the tunneling path.</li>
+        <li><strong>AutoWalk:</strong> Automatically moves the player forward while tunneling.</li>
+        <li><strong>Bind:</strong> Sets a keybind to quickly toggle the AutoTunnel module (e.g., T).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Avoid</b></summary>
+    <p>Automatically avoids certain blocks or entities to prevent damage or interference.</p>
+    <ul>
+        <li><strong>Fire:</strong> Avoids fire blocks to prevent fire damage.</li>
+        <li><strong>Cactus:</strong> Avoids cactus blocks to prevent environmental damage.</li>
+        <li><strong>Web:</strong> Avoids cobwebs to prevent getting stuck.</li>
+        <li><strong>Endermen:</strong> Toggles avoidance of Endermen (e.g., set to Off).</li>
+        <li><strong>Unloaded:</strong> Avoids chunks that are not fully loaded.</li>
+        <li><strong>Bind:</strong> Sets a keybind to quickly toggle the Avoid module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>BaseFinder</b></summary>
+    <p>Helps locate bases by analyzing chunk data and specific block types.</p>
+    <ul>
+        <li><strong>Logger:</strong> Logs detected bases and their coordinates.</li>
+        <li><strong>Notification:</strong> Sends a notification when a base is detected.</li>
+        <li><strong>Sound:</strong> Plays a sound alert for base detection.</li>
+        <li><strong>Beds:</strong> Detects beds commonly used in bases.</li>
+        <li><strong>EndPortals:</strong> Locates End Portals.</li>
+        <li><strong>IgnoreDungeonChests:</strong> Ignores dungeon chests during detection.</li>
+        <li><strong>Shulkers:</strong> Detects shulker boxes (e.g., count set to 1).</li>
+        <li><strong>Chests:</strong> Detects standard chests (e.g., count set to 0).</li>
+        <li><strong>EnderChests:</strong> Detects Ender Chests (e.g., count set to 2).</li>
+        <li><strong>Skulls:</strong> Detects player or decorative skulls (e.g., count set to 0).</li>
+        <li><strong>Spawners:</strong> Detects mob spawners.</li>
+        <li><strong>Hoppers:</strong> Detects hoppers (e.g., count set to 3).</li>
+        <li><strong>Dispensers:</strong> Detects dispensers.</li>
+        <li><strong>Donkeys:</strong> Detects donkeys (e.g., count set to 2).</li>
+        <li><strong>Llamas:</strong> Detects llamas (e.g., count set to 2).</li>
+        <li><strong>ChestRequired:</strong> Requires the presence of a chest for a base to be considered valid.</li>
+        <li><strong>Bind:</strong> Sets a keybind to quickly toggle the BaseFinder module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>BlockTweaks</b></summary>
+    <p>Provides additional adjustments to block interactions.</p>
+    <ul>
+        <li><strong>Abort:</strong> Allows canceling ongoing block actions or interactions.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ClientSideTime</b></summary>
+    <p>Adjusts the displayed time on the client side.</p>
+    <ul>
+        <li><strong>Time:</strong> Sets the time value for the client (e.g., 24000).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Environment</b></summary>
+    <p>Adjusts environmental effects and visual settings.</p>
+    <ul>
+        <li><strong>World Color:</strong> Allows customization of the world’s ambient color.</li>
+        <li><strong>Sky:</strong> Customizes sky settings for different dimensions:</li>
+        <ul>
+            <li><strong>Overworld Color:</strong> Sets the sky color in the Overworld.</li>
+            <li><strong>Nether Color:</strong> Sets the sky color in the Nether.</li>
+            <li><strong>End Color:</strong> Sets the sky color in the End.</li>
+        </ul>
+        <li><strong>Cloud:</strong> Toggles cloud rendering or customization.</li>
+        <li><strong>Bind:</strong> Sets a keybind to quickly toggle the Environment module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FastBreak</b></summary>
+    <p>Increases the speed of block-breaking.</p>
+    <ul>
+        <li><strong>Mode:</strong> Normal or Grim (Grim helps bypass anti-cheat systems).</li>
+        <li><strong>Speed:</strong> Adjusts the block-breaking speed (start with 1-2 and gradually increase).</li>
+        <li><strong>Delay:</strong> Time between break actions (set to 0 or small values for faster breaking).</li>
+        <li><strong>CancelCurrent:</strong> Cancels the current block-breaking action if desynced or lagged (enabled for high-latency servers like 2b2t).</li>
+        <li><strong>DoubleBreak:</strong> Breaks two blocks simultaneously (useful for clearing tunnels or traps; disable if causing desync).</li>
+        <li><strong>TPSSync:</strong> Synchronizes breaking speed with the server's TPS (enable for laggy servers like 2b2t).</li>
+        <li><strong>Raytrace:</strong> Ensures the block is visible before breaking (prevents anti-cheat flags; enable).</li>
+        <li><strong>Rotate:</strong> Adjusts the player's orientation to target blocks (enable for better accuracy).</li>
+        <li><strong>AutoSwitch:</strong> Automatically switches to the best tool for breaking blocks.</li>
+        <li><strong>Silent:</strong> Allows AutoSwitch to occur without visibly changing the held tool.</li>
+        <li><strong>UpdatedNCP:</strong> A specific bypass for anti-cheat systems similar to NoCheatPlus (enable for improved performance).</li>
+        <li><strong>InstantRebreak/AutoRebreak:</strong> Automatically retries breaking blocks that reappear due to lag or anti-cheat.</li>
+        <li><strong>PauseWhileEating:</strong> Pauses block-breaking while eating food.</li>
+        <li><strong>Queue:</strong> Prioritizes blocks based on proximity or specific conditions.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>FastPlace</b></summary>
+    <p>Speeds up block placement actions.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the placement mode (e.g., Blacklist).</li>
+        <li><strong>Delay:</strong> Configures the delay between block placements (e.g., 0 for instant).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the FastPlace module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ForcePlace</b></summary>
+    <p>Allows placement of blocks in restricted areas.</p>
+    <ul>
+        <li><strong>Blocks:</strong> Configures which blocks can be force-placed.</li>
+        <li><strong>Entities:</strong> Toggles whether blocks can be placed on entities.</li>
+        <li><strong>Fireworks:</strong> Toggles placement of fireworks in restricted areas.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the ForcePlace module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>LiquidInteract</b></summary>
+    <p>Enables interaction with blocks through liquid (e.g., water, lava).</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the LiquidInteract module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>MobOwner</b></summary>
+    <p>Displays the owner of tamed mobs and tracks thrown items like pearls.</p>
+    <ul>
+        <li><strong>Pearls:</strong> Tracks thrown ender pearls.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the MobOwner module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>NewChunks</b></summary>
+    <p>Highlights newly generated chunks for exploration or analysis.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the chunk highlighting mode (e.g., Palette).</li>
+        <li><strong>Inverse:</strong> Toggles the inverse rendering of chunks.</li>
+        <li><strong>Alerts:</strong> Enables alerts for detected new chunks.</li>
+        <li><strong>Sound:</strong> Plays a sound notification for new chunks.</li>
+        <li><strong>Chat:</strong> Sends a chat message when new chunks are detected.</li>
+        <li><strong>Log:</strong> Logs detected new chunks.</li>
+        <li><strong>Fresh:</strong> Highlights the most recently loaded chunks.</li>
+        <li><strong>Render Settings:</strong> Configures rendering options for new chunks.</li>
+        <li><strong>Colors:</strong> Customizes colors for chunk rendering:</li>
+        <ul>
+            <li><strong>Overworld:</strong> Sets the color for the Overworld (e.g., Green).</li>
+            <li><strong>Nether:</strong> Sets the color for the Nether (e.g., Red).</li>
+            <li><strong>End:</strong> Sets the color for the End (e.g., Gray).</li>
+        </ul>
+        <li><strong>YLevel:</strong> Toggles rendering at a specific Y-level (e.g., Sky).</li>
+        <li><strong>Fill:</strong> Toggles filled chunk rendering.</li>
+        <li><strong>Outline:</strong> Toggles outlined chunk rendering.</li>
+        <li><strong>Width:</strong> Sets the width of chunk outlines (e.g., 1).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the NewChunks module (e.g., LEFTBRACKET).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>NoGlitchBlocks</b></summary>
+    <p>Prevents interaction with glitched or ghost blocks.</p>
+    <ul>
+        <li><strong>Place:</strong> Prevents placement on glitched blocks.</li>
+        <li><strong>Break:</strong> Prevents breaking of glitched blocks.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the NoGlitchBlocks module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>NoMineAnimation</b></summary>
+    <p>Disables the block-breaking animation for better visibility.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the NoMineAnimation module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Nuker</b></summary>
+    <p>Breaks multiple blocks at once within a radius.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the operational mode (e.g., Survival).</li>
+        <li><strong>Targeting:</strong> Configures targeting mode (e.g., Whitelist).</li>
+        <li><strong>ClickType:</strong> Sets the trigger for breaking blocks (e.g., Left).</li>
+        <li><strong>Break:</strong> Configures breaking behavior (e.g., Normal).</li>
+        <li><strong>Priority:</strong> Sets the priority for breaking blocks (e.g., Closest).</li>
+        <li><strong>Range:</strong> Defines the breaking radius (e.g., 2.9).</li>
+        <li><strong>Delay:</strong> Adjusts the delay between actions (e.g., 1 tick).</li>
+        <li><strong>Strict:</strong> Toggles strict breaking rules.</li>
+        <li><strong>Flatten:</strong> Flattens the terrain during block breaking.</li>
+        <li><strong>Rotate:</strong> Adjusts player orientation to target blocks.</li>
+        <li><strong>Render:</strong> Toggles visualization of targeted blocks.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Nuker module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Scaffold</b></summary>
+    <p>Automatically places blocks beneath the player for easier building and movement.</p>
+    <ul>
+        <li><strong>Blocks:</strong> Configures which blocks can be used (e.g., Whitelist).</li>
+        <li><strong>Swap:</strong> Automatically swaps to available blocks when the current stack runs out.</li>
+        <li><strong>Silent:</strong> Toggles silent block placement without changing the held block visually.</li>
+        <li><strong>Safewalk:</strong> Prevents falling off edges while scaffolding.</li>
+        <li><strong>Sneak:</strong> Toggles sneaking while using Scaffold.</li>
+        <li><strong>Expand:</strong> Configures the area around the player where blocks are placed:</li>
+        <ul>
+            <li><strong>Range:</strong> Sets the range for block placement (e.g., 3 blocks).</li>
+            <li><strong>OnlyForward:</strong> Places blocks only in the forward direction.</li>
+            <li><strong>WhileMoving:</strong> Enables block placement only while the player is moving.</li>
+        </ul>
+        <li><strong>Tower:</strong> Adds vertical scaffolding capabilities:</li>
+        <ul>
+            <li><strong>Strict:</strong> Toggles strict tower building rules.</li>
+            <li><strong>StrictSprint:</strong> Disables sprinting while building towers (e.g., Off).</li>
+            <li><strong>HoldY:</strong> Maintains the current Y-coordinate while scaffolding.</li>
+        </ul>
+        <li><strong>Delay:</strong> Sets the delay between block placements (e.g., 2 ticks).</li>
+        <li><strong>StrictDir:</strong> Forces strict directional block placement.</li>
+        <li><strong>Raytrace:</strong> Ensures visible placement of blocks to avoid anti-cheat flags.</li>
+        <li><strong>Rotate:</strong> Adjusts the player’s orientation to align with block placement.</li>
+        <li><strong>Render:</strong> Toggles visualization of block placement areas.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Scaffold module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>SelfBlock</b></summary>
+    <p>Places a block at the player's current position for protection or strategy.</p>
+    <ul>
+        <li><strong>InsideCheck:</strong> Ensures the player is inside the block before placing.</li>
+        <li><strong>Rotate:</strong> Adjusts the player’s orientation to target block placement.</li>
+        <li><strong>Center:</strong> Centers the player within the block.</li>
+        <li><strong>Only:</strong> Limits block placement to specific block types:</li>
+        <ul>
+            <li><strong>Obsidian:</strong> Toggles placement of obsidian blocks.</li>
+            <li><strong>EnderChests:</strong> Toggles placement of Ender Chests.</li>
+            <li><strong>Skulls:</strong> Toggles placement of skulls.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the SelfBlock module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>SourceRemover</b></summary>
+    <p>Automatically removes water or lava source blocks.</p>
+    <ul>
+        <li><strong>Priority:</strong> Sets the priority for source removal (e.g., Lowest).</li>
+        <li><strong>Range:</strong> Defines the range for source detection (e.g., 4 blocks).</li>
+        <li><strong>Delay:</strong> Adjusts the delay between removal actions.</li>
+        <li><strong>Rotate:</strong> Adjusts the player’s orientation to align with the target source block.</li>
+        <li><strong>Speed:</strong> Sets the removal speed (e.g., 180).</li>
+        <li><strong>Raytrace:</strong> Ensures visible placement of blocks to avoid anti-cheat flags.</li>
+        <li><strong>Swap:</strong> Automatically swaps tools for source removal.</li>
+        <li><strong>Water:</strong> Toggles removal of water sources.</li>
+        <li><strong>BubbleColumns:</strong> Toggles removal of bubble column sources.</li>
+        <li><strong>Lava:</strong> Toggles removal of lava sources.</li>
+        <li><strong>Render:</strong> Toggles visualization of targeted sources.</li>
+        <li><strong>Color:</strong> Configures the color of rendered source blocks.</li>
+        <li><strong>PauseBaritone:</strong> Pauses Baritone when removing sources.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the SourceRemover module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Timer</b></summary>
+    <p>Adjusts the game tick rate for the player.</p>
+    <ul>
+        <li><strong>Speed:</strong> Sets the game speed multiplier (e.g., 2).</li>
+        <li><strong>TPS Sync:</strong> Synchronizes the timer with the server’s TPS.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Timer module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Waypoints</b></summary>
+    <p>Allows the player to create and track waypoints for navigation.</p>
+    <ul>
+        <li><strong>Mode:</strong> Sets the waypoint display mode (e.g., Coords).</li>
+        <li><strong>Nametag:</strong> Toggles nametag visibility for waypoints.</li>
+        <li><strong>CustomFont:</strong> Enables custom fonts for waypoint names.</li>
+        <li><strong>Vertical:</strong> Toggles vertical positioning of waypoints.</li>
+        <li><strong>Scale:</strong> Adjusts the waypoint scale (e.g., 1).</li>
+        <li><strong>Beam:</strong> Toggles a beam effect from waypoints.</li>
+        <li><strong>Box:</strong> Toggles a box around waypoints.</li>
+        <li><strong>Tracer:</strong> Draws a line from the player to waypoints.</li>
+        <li><strong>AutoDisconnect:</strong> Automatically disconnects when approaching certain waypoints.</li>
+        <li><strong>Range:</strong> Sets the range for waypoint visibility (e.g., 20 blocks).</li>
+        <li><strong>Color:</strong> Customizes the color of waypoint markers.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Waypoints module (e.g., NONE).</li>
+    </ul>
+</details>
+
+</section>
+
+	<section id="client">
+    <h2>Client Modules</h2>
+<details>
+    <summary><b>Background</b></summary>
+    <p>Customizes the background of the client interface with visual effects and settings.</p>
+    <ul>
+        <li><strong>Particles:</strong> Enables particle effects for the background.</li>
+        <ul>
+            <li><strong>Mode:</strong> Sets the particle mode (e.g., Repel).</li>
+            <li><strong>Circles:</strong> Toggles circular particle effects.</li>
+            <li><strong>Particles:</strong> Adjusts the number of particles (e.g., 30).</li>
+            <li><strong>Radius:</strong> Sets the radius of the particle effect (e.g., 2).</li>
+            <li><strong>Velocity:</strong> Configures the speed of particles (e.g., 8).</li>
+            <li><strong>Thickness:</strong> Adjusts the thickness of particle lines (e.g., 1).</li>
+            <li><strong>MaxLineDist:</strong> Sets the maximum distance between particle lines (e.g., 150).</li>
+            <li><strong>RepelRadius:</strong> Defines the radius for the repel effect (e.g., 100).</li>
+            <li><strong>RepelForce:</strong> Configures the force of the repel effect (e.g., 2).</li>
+            <li><strong>Color:</strong> Customizes the color of particles.</li>
+        </ul>
+        <li><strong>BouncingLogo:</strong> Adds a bouncing logo effect to the background.</li>
+        <ul>
+            <li><strong>Speed:</strong> Adjusts the bouncing speed (e.g., 5).</li>
+            <li><strong>Scale:</strong> Sets the size of the bouncing logo (e.g., 1).</li>
+        </ul>
+        <li><strong>AlwaysOn:</strong> Keeps the background effects active at all times.</li>
+        <li><strong>Gradient:</strong> Enables gradient effects for the background.</li>
+        <li><strong>Visibility:</strong> Toggles visibility of different interface elements:</li>
+        <ul>
+            <li><strong>ClickGui:</strong> Visibility of the ClickGUI.</li>
+            <li><strong>HudEditor:</strong> Visibility of the HUD editor.</li>
+            <li><strong>Windows:</strong> Visibility of additional windows.</li>
+            <li><strong>Chat:</strong> Visibility of the chat window.</li>
+            <li><strong>MainMenu:</strong> Visibility of the main menu.</li>
+            <li><strong>Others:</strong> Visibility of other elements.</li>
+        </ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Background module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Baritone</b></summary>
+    <p>Integrates Baritone pathfinding for automated movement and actions.</p>
+    <ul>
+        <li><strong>LagStop:</strong> Toggles stopping Baritone actions during lag.</li>
+        <li><strong>Time:</strong> Sets the delay or cooldown time for Baritone actions (e.g., 1).</li>
+        <li><strong>PauseBind:</strong> Sets a keybind to pause Baritone actions (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Capes</b></summary>
+    <p>Customizes player capes.</p>
+    <ul>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Capes module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>ClickGUI</b></summary>
+    <p>The main graphical interface for enabling and configuring modules.</p>
+    <ul>
+        <li><strong>Scale:</strong> Adjusts the size of the GUI (e.g., 1).</li>
+        <li><strong>Bind:</strong> Sets a keybind to open or toggle the ClickGUI (e.g., P).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Colors</b></summary>
+    <p>Customizes the color scheme of various elements in the client.</p>
+    <ul>
+        <li><strong>Rainbow Settings:</strong> Adjusts the rainbow color animation settings:</li>
+        <ul>
+            <li><strong>Mode:</strong> Sets the rainbow mode (e.g., Rainbow).</li>
+            <li><strong>Speed:</strong> Adjusts the speed of the rainbow animation (e.g., 1).</li>
+            <li><strong>Saturation:</strong> Configures the saturation of the rainbow colors (e.g., 50).</li>
+            <li><strong>Brightness:</strong> Sets the brightness level of the colors (e.g., 100).</li>
+        </ul>
+        <li><strong>Entities:</strong> Configures the colors for different entity types:</li>
+        <ul>
+            <li><strong>Friends:</strong> Sets the color for friends.</li>
+            <li><strong>Enemies:</strong> Sets the color for enemies.</li>
+            <li><strong>Players:</strong> Sets the color for players (e.g., Red).</li>
+            <li><strong>Hostiles:</strong> Sets the color for hostile mobs.</li>
+            <li><strong>Passives:</strong> Sets the color for passive mobs.</li>
+            <li><strong>Neutrals:</strong> Sets the color for neutral mobs.</li>
+            <li><strong>EndCrystals:</strong> Sets the color for end crystals (e.g., Magenta).</li>
+            <li><strong>Vehicles:</strong> Configures the color for vehicles.</li>
+            <li><strong>Items:</strong> Sets the color for dropped items.</li>
+            <li><strong>Misc:</strong> Sets colors for miscellaneous entities.</li>
+        </ul>
+        <li><strong>Block Entities:</strong> Configures the colors for specific block entities:</li>
+        <ul>
+            <li><strong>Chests:</strong> Sets the color for chests (e.g., Yellow).</li>
+            <li><strong>EnderChests:</strong> Sets the color for Ender Chests (e.g., Purple).</li>
+            <li><strong>ShulkerBoxes:</strong> Configures the color for Shulker Boxes (e.g., Pink).</li>
+            <li><strong>Barrels:</strong> Sets the color for barrels.</li>
+            <li><strong>Misc:</strong> Sets colors for other block entities.</li>
+        </ul>
+        <li><strong>Distance Colors:</strong> Configures colors based on entity distance:</li>
+        <ul>
+            <li><strong>Far:</strong> Sets the color for distant entities.</li>
+            <li><strong>Close:</strong> Sets the color for nearby entities (e.g., Red).</li>
+        </ul>
+    </ul>
+</details>
+
+<details>
+    <summary><b>CustomFont</b></summary>
+    <p>Enables the use of custom fonts within the client interface.</p>
+    <ul>
+        <li><strong>Font:</strong> Sets the font style (e.g., Verdana).</li>
+        <li><strong>Bold:</strong> Toggles bold text.</li>
+        <li><strong>Italic:</strong> Toggles italic text.</li>
+        <li><strong>Size:</strong> Adjusts the font size (e.g., 18).</li>
+        <li><strong>ShadowBlur:</strong> Configures the blur effect for text shadows (e.g., 1).</li>
+        <li><strong>ClickGui:</strong> Toggles the font for ClickGUI elements.</li>
+        <li><strong>HUD:</strong> Toggles the font for HUD elements.</li>
+        <li><strong>Windows:</strong> Toggles the font for window elements.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the CustomFont module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Entities</b></summary>
+    <p>Configures display settings for entities in the HUD.</p>
+    <ul>
+        <li><strong>FakePlayers:</strong> Toggles display for fake players.</li>
+        <li><strong>Damage:</strong> Toggles damage indicators.</li>
+        <li><strong>Movement:</strong> Toggles movement display (e.g., Off).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>HUD</b></summary>
+    <p>Customizes the heads-up display elements on the screen.</p>
+    <ul>
+        <li><strong>Scale:</strong> Adjusts the overall HUD scale (e.g., 0.9).</li>
+        <li><strong>Colors:</strong> Configures HUD colors:</li>
+        <ul>
+            <li><strong>ThemeSync:</strong> Synchronizes HUD colors with the theme.</li>
+            <li><strong>Global:</strong> Sets global HUD color configurations.</li>
+        </ul>
+        <li><strong>Background:</strong> Customizes the background of HUD elements:</li>
+        <ul>
+            <li><strong>Color:</strong> Sets the background color (e.g., Black).</li>
+            <li><strong>Blur:</strong> Toggles blur effects for the background.</li>
+            <li><strong>Clamping:</strong> Enables clamping of HUD elements to the screen.</li>
+            <li><strong>Snapping:</strong> Toggles snapping of HUD elements for alignment.</li>
+        </ul>
+        <li><strong>Notifications:</strong> Toggles notifications in the HUD.</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the HUD module (e.g., NONE).</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>MainMenu</b></summary>
+    <p>Customizes the appearance and functionality of the client's main menu.</p>
+    <ul>
+        <li><strong>Shader:</strong> Enables a shader for the main menu background.</li>
+        <li><strong>Randomize:</strong> Randomly selects shaders for the main menu.</li>
+        <li><strong>SelectedShader:</strong> Manually sets a specific shader for the main menu.</li>
+        <li><strong>AltManager:</strong> Toggles an alternative account manager.</li>
+        <li><strong>RealmsButton:</strong> Toggles the Realms button on the main menu.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Rotations</b></summary>
+    <p>Adjusts player rotation settings for smoother or fixed rotations.</p>
+    <ul>
+        <li><strong>MoveFix:</strong> Fixes movement-related issues during rotation adjustments.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Theme</b></summary>
+    <p>Allows customization of the client's overall appearance and theme.</p>
+    <ul>
+        <li><strong>ClickGui:</strong> Sets the theme for the ClickGUI (e.g., Classic).</li>
+        <li><strong>Hud:</strong> Sets the theme for the HUD (e.g., Classic).</li>
+        <li><strong>Windows:</strong> Sets the theme for additional windows (e.g., Classic).</li>
+        <li><strong>OpenAnywhere:</strong> Allows GUI elements to open anywhere on the screen.</li>
+        <li><strong>Classic:</strong> Toggles a classic-style appearance.</li>
+        <li><strong>Color:</strong> Customizes the theme color.</li>
+        <li><strong>Panels:</strong> Configures panels within the theme.</li>
+        <li><strong>Items:</strong> Configures item-related elements in the theme.</li>
+        <li><strong>ScrollClamp:</strong> Toggles clamping for scrollable elements.</li>
+        <li><strong>Blur:</strong> Enables a blur effect for background elements.</li>
+    </ul>
+</details>
+
+<details>
+    <summary><b>Windows</b></summary>
+    <p>Manages and customizes the appearance of GUI windows.</p>
+    <ul>
+        <li><strong>TaskbarSide:</strong> Sets the position of the taskbar (e.g., Bottom).</li>
+        <li><strong>Bind:</strong> Sets a keybind to toggle the Windows module (e.g., EQUAL).</li>
+    </ul>
+</details>
+
+</section>
+
+    <!-- Add more sections here for Miscellaneous, Movement, Player, Render, World, Client -->
+<footer style="text-align: center; margin-top: 20px; font-size: 14px; color: gray;">
+    <p>Created by <b>CANNIBUTTER</b></p>
+    <p>&copy; 2025 CANNIBUTTER. </p>
+</footer>
+
+</body>
+</html>
