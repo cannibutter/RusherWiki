@@ -3,126 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RusherHackWiki</title>
-   <style>
-    /* General Page Styling */
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 20px;
-        background-color: #1e1e2e; /* Dark grayish-black background */
-        color: #ffffff; /* White text for contrast */
-    }
-
-    h1 {
-        color: #c792ea; /* Purple for the header */
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    /* Navigation Bar */
-    .navigation {
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #2a273f; /* Darker gray background */
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .navigation a {
-        margin: 0 15px;
-        text-decoration: none;
-        color: #c792ea; /* Purple links */
-        font-weight: bold;
-        font-size: 1.1em;
-        padding: 5px 10px;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .navigation a:hover {
-        background-color: #c792ea; /* Purple background on hover */
-        color: #1e1e2e; /* Dark text on hover */
-        border-radius: 4px;
-    }
-
-    /* Section Styling */
-    section {
-        display: none;
-        padding: 15px;
-        background-color: #2a273f; /* Section background */
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    section.active {
-        display: block;
-        animation: fadeIn 0.5s ease-in-out; /* Smooth appearance */
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+    <title>RusherHack Modules and Configurations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Montserrat', Arial, sans-serif; /* Sleek modern font */
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #1e1e2e; /* Dark background */
+            color: #ffffff; /* White text for contrast */
         }
-        to {
-            opacity: 1;
+
+        h1 {
+            color: #c792ea; /* Purple for the header */
+            text-align: center;
+            font-family: 'Poppins', Arial, sans-serif; /* Add a bold header font */
+            font-weight: 600;
+            margin-bottom: 20px;
         }
-    }
 
-    /* Configuration Details Styling */
-    details {
-        background-color: #3b3b58; /* Slightly lighter gray for details */
-        color: #ffffff;
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid #c792ea; /* Purple border */
-    }
+        /* Navigation Bar */
+        .navigation {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #2a273f; /* Darker gray */
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    details summary {
-        font-weight: bold;
-        cursor: pointer;
-        color: #c792ea;
-    }
+        .navigation a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #c792ea; /* Purple links */
+            font-weight: 600; /* Bolder text for links */
+            font-size: 1.1em;
+            padding: 5px 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    details summary:hover {
-        text-decoration: underline;
-    }
+        .navigation a:hover {
+            background-color: #c792ea; /* Purple background on hover */
+            color: #1e1e2e; /* Dark text */
+            border-radius: 4px;
+        }
 
-    details p {
-        margin: 5px 0 0 10px;
-        font-size: 0.9em;
-    }
+        /* Section Styling */
+        section {
+            display: none;
+            padding: 15px;
+            background-color: #2a273f; /* Section background */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Search Bar */
-    .search-container {
-        margin-bottom: 20px;
-        text-align: center;
-    }
+        section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out; /* Smooth appearance */
+        }
 
-    .search-container input {
-        padding: 10px;
-        width: 50%;
-        max-width: 500px;
-        font-size: 1em;
-        border: 2px solid #c792ea;
-        border-radius: 6px;
-        background-color: #2a273f;
-        color: #ffffff;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
-    .search-container input:focus {
-        outline: none;
-        border-color: #ffffff;
-    }
+        /* Details Styling */
+        details {
+            background-color: #3b3b58; /* Slightly lighter gray */
+            color: #ffffff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #c792ea; /* Purple border */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Footer */
-    footer {
-        text-align: center;
-        margin-top: 30px;
-        font-size: 0.9em;
-        color: #888;
-    }
-</style>
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #c792ea;
+        }
+
+        details summary:hover {
+    text-decoration: underline; /* Optional: underline on hover */
+    border: 2px solid #c792ea; /* Thicker purple border */
+    border-radius: 6px; /* Rounded corners for consistency */
+    padding: 8px; /* Add padding to account for border size */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+
+
+        details p {
+            margin: 5px 0 0 10px;
+            font-size: 0.95em;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 50%;
+            max-width: 500px;
+            font-size: 1em;
+            border: 2px solid #c792ea;
+            border-radius: 6px;
+            background-color: #2a273f;
+            color: #ffffff;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #ffffff; /* White border on focus */
+        }
+
+#toggleAll {
+    position: fixed; /* Fixes the button to the viewport */
+    bottom: 20px; /* Distance from the bottom of the screen */
+    right: 20px; /* Distance from the right side of the screen */
+    padding: 10px 15px;
+    background-color: #c792ea; /* Purple background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    z-index: 1000; /* Ensures the button is above other content */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+#toggleAll:hover {
+    background-color: #a160c7; /* Slightly darker purple on hover */
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+}
+
+
+        /* Highlight */
+        .highlight {
+            background-color: #c792ea;
+            color: #ffffff;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+
 
 <script>
     function showSection(sectionId) {
@@ -143,21 +188,88 @@
         document.getElementById('searchBox').value = ""; // Clear search box
     }
 
-    function searchModules() {
-        const query = document.getElementById('searchBox').value.toLowerCase();
-        const activeSection = document.querySelector('section.active');
-        const details = activeSection.querySelectorAll('details');
+function searchModules() {
+    const query = document.getElementById('searchBox').value.toLowerCase().trim();
+    const sections = document.querySelectorAll('section'); // Get all sections
+    let matchFound = false;
 
-        // Filter details within the active section
+    sections.forEach(section => {
+        const details = section.querySelectorAll('details');
+        let sectionMatch = false;
+
         details.forEach(detail => {
-            const text = detail.textContent.toLowerCase();
-            if (text.includes(query)) {
-                detail.style.display = "block";
+            const summaryElement = detail.querySelector('summary');
+            const contentElement = detail.querySelector('p');
+
+            const summaryText = summaryElement?.textContent.toLowerCase() || '';
+            const contentText = contentElement?.textContent.toLowerCase() || '';
+
+            if (summaryText.includes(query) || contentText.includes(query)) {
+                detail.style.display = 'block'; // Show matching module
+                sectionMatch = true;
+                matchFound = true;
+
+                // Highlight matching text in summary
+                if (summaryElement) {
+                    summaryElement.innerHTML = highlightText(summaryElement.textContent, query);
+                }
+
+                // Highlight matching text in content
+                if (contentElement) {
+                    contentElement.innerHTML = highlightText(contentElement.textContent, query);
+                }
             } else {
-                detail.style.display = "none";
+                detail.style.display = 'none'; // Hide non-matching module
             }
         });
+
+        // Show or hide section based on matches
+        section.style.display = sectionMatch ? 'block' : 'none';
+    });
+
+    // Handle "no results" message
+    const noResultsMessage = document.getElementById('noResults');
+    if (!matchFound) {
+        if (!noResultsMessage) {
+            const message = document.createElement('p');
+            message.id = 'noResults';
+            message.style.color = '#c792ea';
+            message.style.textAlign = 'center';
+            message.textContent = 'No matching modules found.';
+            document.body.appendChild(message);
+        }
+    } else {
+        const existingMessage = document.getElementById('noResults');
+        if (existingMessage) existingMessage.remove();
     }
+}
+
+// Helper function to highlight text
+function highlightText(text, query) {
+    const regex = new RegExp(`(${query})`, 'gi'); // Case-insensitive match
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+
+let allDetailsOpen = false; // Tracks whether all details are currently open
+
+function toggleAllDetails() {
+    const allDetails = document.querySelectorAll('details'); // Select all <details> elements
+    allDetails.forEach(detail => {
+        detail.open = !allDetailsOpen; // Toggle open/close
+    });
+
+    // Update the button text based on the current state
+    const toggleButton = document.getElementById('toggleAll');
+    if (allDetailsOpen) {
+        toggleButton.textContent = 'Open All Modules';
+    } else {
+        toggleButton.textContent = 'Close All Modules';
+    }
+
+    allDetailsOpen = !allDetailsOpen; // Update the state
+}
+
 </script>
 
 
@@ -167,9 +279,19 @@
 <body>
     <h1>RusherHackWiki</h1>
 	
-	<div class="search-container">
-    <input type="text" id="searchBox" placeholder="Search modules..." onkeyup="searchModules()">
+<div class="search-container">
+    <input
+        type="text"
+        id="searchBox"
+        onkeyup="searchModules()"
+        placeholder="Search modules..."
+        style="width: 100%; padding: 10px; border-radius: 6px; border: 2px solid #c792ea; background-color: #2a273f; color: #ffffff;"
+    />
 </div>
+<div id="searchResults" style="margin-top: 20px; display: none; background-color: #2a273f; padding: 15px; border-radius: 8px; color: #ffffff;">
+    <!-- Search results will appear here -->
+</div>
+
 
 
     <div class="navigation">
@@ -182,6 +304,10 @@
         <a href="#" onclick="showSection('world')">World Modules</a>
         <a href="#" onclick="showSection('client')">Client Modules</a>
     </div>
+
+<button id="toggleAll" onclick="toggleAllDetails()" style="margin: 10px; padding: 10px; background-color: #c792ea; color: #ffffff; border: none; border-radius: 6px; cursor: pointer;">
+    Toggle All Modules
+</button>
 
     <section id="chat" class="active">
         <h2>Chat Modules</h2>
