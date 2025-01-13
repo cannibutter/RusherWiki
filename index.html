@@ -129,26 +129,24 @@
             border-color: #ffffff; /* White border on focus */
         }
 
-#toggleAll {
-    position: fixed; /* Fixes the button to the viewport */
-    bottom: 20px; /* Distance from the bottom of the screen */
-    right: 20px; /* Distance from the right side of the screen */
-    padding: 10px 15px;
-    background-color: #c792ea; /* Purple background */
-    color: #ffffff; /* White text */
+#toggleAllButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #6a0dad; /* Purple color */
+    color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    z-index: 1000; /* Ensures the button is above other content */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensures it stays above other elements */
 }
 
-#toggleAll:hover {
-    background-color: #a160c7; /* Slightly darker purple on hover */
-    transform: scale(1.05); /* Subtle zoom effect on hover */
+#toggleAllButton:hover {
+    background-color: #8b008b; /* Lighter purple on hover */
 }
+
 
 
         /* Highlight */
