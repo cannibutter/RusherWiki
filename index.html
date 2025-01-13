@@ -4,36 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RusherHack Modules and Configurations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f9;
+   <style>
+    /* General Page Styling */
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #1e1e2e; /* Dark grayish-black background */
+        color: #ffffff; /* White text for contrast */
+    }
+
+    h1 {
+        color: #c792ea; /* Purple for the header */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Navigation Bar */
+    .navigation {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #2a273f; /* Darker gray background */
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .navigation a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #c792ea; /* Purple links */
+        font-weight: bold;
+        font-size: 1.1em;
+        padding: 5px 10px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navigation a:hover {
+        background-color: #c792ea; /* Purple background on hover */
+        color: #1e1e2e; /* Dark text on hover */
+        border-radius: 4px;
+    }
+
+    /* Section Styling */
+    section {
+        display: none;
+        padding: 15px;
+        background-color: #2a273f; /* Section background */
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in-out; /* Smooth appearance */
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
         }
-        h1 {
-            color: #333;
+        to {
+            opacity: 1;
         }
-        .navigation {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #ddd;
-        }
-        .navigation a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #007BFF;
-        }
-        .navigation a:hover {
-            text-decoration: underline;
-        }
-        section {
-            display: none;
-        }
-        section.active {
-            display: block;
-        }
-    </style>
+    }
+
+    /* Configuration Details Styling */
+    details {
+        background-color: #3b3b58; /* Slightly lighter gray for details */
+        color: #ffffff;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #c792ea; /* Purple border */
+    }
+
+    details summary {
+        font-weight: bold;
+        cursor: pointer;
+        color: #c792ea;
+    }
+
+    details summary:hover {
+        text-decoration: underline;
+    }
+
+    details p {
+        margin: 5px 0 0 10px;
+        font-size: 0.9em;
+    }
+
+    /* Search Bar */
+    .search-container {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .search-container input {
+        padding: 10px;
+        width: 50%;
+        max-width: 500px;
+        font-size: 1em;
+        border: 2px solid #c792ea;
+        border-radius: 6px;
+        background-color: #2a273f;
+        color: #ffffff;
+    }
+
+    .search-container input:focus {
+        outline: none;
+        border-color: #ffffff;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9em;
+        color: #888;
+    }
+</style>
+
 <script>
     function showSection(sectionId) {
         const sections = document.querySelectorAll('section');
