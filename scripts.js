@@ -135,3 +135,46 @@ function toggleAllDetails() {
     const toggleButton = document.getElementById('toggleAllDetails');
     toggleButton.addEventListener('click', toggleAllDetails);
     toggleButton.addEventListener('touchstart', toggleAllDetails);
+
+
+fetch('http://localhost:3000/api/posts')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Use this data to display posts
+    });
+
+
+function createPost() {
+    const postTitle = document.getElementById('postTitle').value.trim();
+    const postContent = document.getElementById('postContent').value.trim();
+
+    if (postTitle === "" || postContent === "") {
+        alert("Both title and content are required.");
+        return;
+    }
+
+    fetch('http://localhost:3000/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: postTitle, content: postContent })
+    })
+    .then(response => response.json())
+    .then(post => {
+        console.log('Post created:', post);
+        // Update the frontend with the new post
+    });
+}
+
+
+function vote(postId, value) {
+    fetch(`http://localhost:3000/api/posts/${postId}/vote`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vote: value })
+    })
+    .then(response => response.json())
+    .then(updatedPost => {
+        console.log('Updated post:', updatedPost);
+        // Update the frontend votes
+    });
+}
