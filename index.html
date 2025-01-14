@@ -222,23 +222,51 @@ function searchModules() {
         details.forEach(detail => {
             const summaryElement = detail.querySelector('summary');
             const contentElement = detail.querySelector('p');
+            const listItems = detail.querySelectorAll('li'); // Include <li> elements
 
-            const summaryText = summaryElement?.textContent.toLowerCase() || '';
-            const contentText = contentElement?.textContent.toLowerCase() || '';
+            const originalSummaryText = summaryElement?.getAttribute('data-original-text') || summaryElement?.textContent;
+            const originalContentText = contentElement?.getAttribute('data-original-text') || contentElement?.textContent;
 
-            if (summaryText.includes(query) || contentText.includes(query)) {
+            // Save original text as an attribute if not already saved
+            if (!summaryElement.hasAttribute('data-original-text')) {
+                summaryElement.setAttribute('data-original-text', originalSummaryText);
+            }
+            if (contentElement && !contentElement.hasAttribute('data-original-text')) {
+                contentElement.setAttribute('data-original-text', originalContentText);
+            }
+
+            // Restore original text before applying highlights
+            if (summaryElement) summaryElement.innerHTML = originalSummaryText;
+            if (contentElement) contentElement.innerHTML = originalContentText;
+
+            // Highlight matches in list items
+            let listMatch = false;
+            listItems.forEach(li => {
+                const originalLiText = li.getAttribute('data-original-text') || li.textContent;
+                if (!li.hasAttribute('data-original-text')) {
+                    li.setAttribute('data-original-text', originalLiText);
+                }
+                li.innerHTML = originalLiText; // Reset to original
+                if (originalLiText.toLowerCase().includes(query)) {
+                    li.innerHTML = highlightText(originalLiText, query); // Highlight match
+                    listMatch = true;
+                    sectionMatch = true;
+                    matchFound = true;
+                }
+            });
+
+            // Check for matches in summary or content
+            if (originalSummaryText.toLowerCase().includes(query) || originalContentText.toLowerCase().includes(query) || listMatch) {
                 detail.style.display = 'block'; // Show matching module
                 sectionMatch = true;
                 matchFound = true;
 
-                // Highlight matching text in summary
+                // Highlight matching text
                 if (summaryElement) {
-                    summaryElement.innerHTML = highlightText(summaryElement.textContent, query);
+                    summaryElement.innerHTML = highlightText(originalSummaryText, query);
                 }
-
-                // Highlight matching text in content
                 if (contentElement) {
-                    contentElement.innerHTML = highlightText(contentElement.textContent, query);
+                    contentElement.innerHTML = highlightText(originalContentText, query);
                 }
             } else {
                 detail.style.display = 'none'; // Hide non-matching module
@@ -266,11 +294,14 @@ function searchModules() {
     }
 }
 
-// Helper function to highlight text
+// Highlight function to wrap matching text
 function highlightText(text, query) {
-    const regex = new RegExp(`(${query})`, 'gi'); // Case-insensitive match
-    return text.replace(regex, '<span class="highlight">$1</span>');
+    if (!query) return text; // If no query, return the original text
+    const regex = new RegExp(`(${query})`, 'gi'); // Create a regex for matching query
+    return text.replace(regex, '<span style="background-color: #c792ea; color: #fff;">$1</span>');
 }
+
+
 
 
 let allDetailsOpen = false; // Tracks whether all details are currently open
@@ -282,7 +313,7 @@ function toggleAllDetails() {
     });
 
     // Update the button text based on the current state
-    const toggleButton = document.getElementById('toggleAll');
+    const toggleButton = document.getElementById('toggleAllButton');
     if (allDetailsOpen) {
         toggleButton.textContent = 'Open All Modules';
     } else {
@@ -305,6 +336,9 @@ function toggleAllDetails() {
  <div id="sfctxwwbma8wu69jablm592769lxlltdfmx"></div><script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=txwwbma8wu69jablm592769lxlltdfmx&down=async" async></script><br><a href="https://www.freecounterstat.com">website hits counter</a><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=txwwbma8wu69jablm592769lxlltdfmx" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
 </div>
 
+<button id="toggleAllButton" onclick="toggleAllDetails()" style="margin: 10px; padding: 10px; background-color: #c792ea; color: #ffffff; border: none; border-radius: 6px; cursor: pointer;">
+    Toggle All Modules
+</button>
 	
 <div class="search-container">
     <input
@@ -315,6 +349,7 @@ function toggleAllDetails() {
         style="width: 100%; padding: 10px; border-radius: 6px; border: 2px solid #c792ea; background-color: #2a273f; color: #ffffff;"
     />
 </div>
+
 <div id="searchResults" style="margin-top: 20px; display: none; background-color: #2a273f; padding: 15px; border-radius: 8px; color: #ffffff;">
     <!-- Search results will appear here -->
 </div>
@@ -332,9 +367,7 @@ function toggleAllDetails() {
         <a href="#" onclick="showSection('client')">Client Modules</a>
     </div>
 
-<button id="toggleAll" onclick="toggleAllDetails()" style="margin: 10px; padding: 10px; background-color: #c792ea; color: #ffffff; border: none; border-radius: 6px; cursor: pointer;">
-    Toggle All Modules
-</button>
+
 
     <section id="chat" class="active">
         <h2>Chat Modules</h2>
@@ -3019,7 +3052,7 @@ function toggleAllDetails() {
     <p>&copy; 2025 CANNIBUTTER. </p>
 </footer>
 <div class="banner">
-    <p>Support the project! Use code <b>Cannibutter</b> at checkout for RusherHack. 
+    <p>Support the project! Use code <b>Cannibutter</b> at checkout for RusherHack Client. 
     <a href="https://rusherhack.org/" target="_blank">Visit RusherHack</a></p>
 </div>
 
