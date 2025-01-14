@@ -130,3 +130,8 @@ function toggleAllDetails() {
 
     allDetailsOpen = !allDetailsOpen; // Update the state
 }
+
+    // Add listeners for both click and touch events
+    const toggleButton = document.getElementById('toggleAllDetails');
+    toggleButton.addEventListener('click', toggleAllDetails);
+    toggleButton.addEventListener('touchstart', toggleAllDetails);
