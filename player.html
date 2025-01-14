@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Modules</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1>Player Modules Forum</h1>
+    <nav>
+        <a href="index.html" style="color: #c792ea;">Back to Home</a>
+    </nav>
+</header>
+
+<div class="forum-container">
+    <form id="newPostForm">
+        <h2>Create a New Post for Player Modules</h2>
+        <input type="text" id="postTitle" placeholder="Enter a title for your configuration" />
+        <textarea id="postContent" placeholder="Share your configuration or mod details..." rows="5"></textarea>
+        <button type="button" onclick="createPost()">Post</button>
+    </form>
+
+    <button id="toggleSortButton" onclick="toggleSort()">Show Top Rated Posts</button>
+
+    <div id="forumPosts" class="category-container"></div>
+</div>
+
+<script>
+    const voteTracker = {};
+    const posts = [];
+    let showingTopRated = false;
+
+    function createPost() {
+        const postTitle = document.getElementById('postTitle').value.trim();
+        const postContent = document.getElementById('postContent').value.trim();
+
+        if (postTitle === "" || postContent === "") {
+            alert("Both title and content are required.");
+            return;
+        }
+
+        const postId = `post-${Date.now()}`;
+
+        const newPost = document.createElement('div');
+        newPost.classList.add('post');
+        newPost.setAttribute('data-id', postId);
+        newPost.innerHTML = `
+            <h3>${postTitle}</h3>
+            <p>${postContent}</p>
+            <div class="post-footer">
+                <div class="vote-buttons">
+                    <button onclick="vote('${postId}', 1)">👍</button>
+                    <span class="votes">0</span>
+                    <button onclick="vote('${postId}', -1)">👎</button>
+                </div>
+            </div>
+        `;
+        document.getElementById('forumPosts').prepend(newPost);
+        posts.unshift(newPost);
+        document.getElementById('postTitle').value = "";
+        document.getElementById('postContent').value = "";
+    }
+
+    function vote(postId, value) {
+        if (!voteTracker[postId]) {
+            voteTracker[postId] = 0;
+        }
+        voteTracker[postId] += value;
+
+        const post = document.querySelector(`.post[data-id="${postId}"]`);
+        const votesElement = post.querySelector('.votes');
+        votesElement.textContent = voteTracker[postId];
+    }
+
+    function toggleSort() {
+        const container = document.getElementById('forumPosts');
+        const postElements = Array.from(container.querySelectorAll('.post'));
+
+        if (showingTopRated) {
+            // Show Newest Posts
+            container.innerHTML = "";
+            posts.forEach(post => container.appendChild(post));
+        } else {
+            // Show Top Rated Posts
+            postElements.sort((a, b) => {
+                const votesA = parseInt(a.querySelector('.votes').textContent, 10) || 0;
+                const votesB = parseInt(b.querySelector('.votes').textContent, 10) || 0;
+                return votesB - votesA;
+            });
+            container.innerHTML = "";
+            postElements.forEach(post => container.appendChild(post));
+        }
+
+        showingTopRated = !showingTopRated;
+    }
+</script>
+</body>
+</html>
