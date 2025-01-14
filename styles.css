@@ -8,6 +8,9 @@ header {
 }
 
 header img {
+    display: flex;
+    justify-content: center; /* Horizontally center the banner */
+    align-items: center; /* Vertically center the banner if there's extra height */
     max-width: 100%; /* Ensure the image scales on smaller screens */
     height: auto; /* Maintain aspect ratio */
 }
