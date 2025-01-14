@@ -196,4 +196,70 @@ header img {
             font-size: 0.9em;
             color: #888;
         }
+
+/* General styles for larger screens */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+    color: #c792ea;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    /* Adjust text size and spacing */
+    h1 {
+        font-size: 2em;
+    }
+
+    .navigation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .navigation a {
+        display: block;
+        font-size: 1.2em;
+    }
+
+    section {
+        margin: 10px;
+    }
+
+    details summary {
+        font-size: 1.2em;
+        padding: 10px;
+    }
+
+    .banner {
+        padding: 20px;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    /* Adjust spacing for modules */
+    details p, details li {
+        font-size: 1em;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+
+    .toggleAllModules {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 1000;
+        font-size: 1em;
+    }
+}
     </style>
