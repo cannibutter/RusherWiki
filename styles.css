@@ -44,6 +44,7 @@ header img {
         }
 
         .navigation a {
+	    white-space: nowrap;
             margin: 0 15px;
             text-decoration: none;
             color: #c792ea; /* Purple links */
@@ -228,6 +229,7 @@ h1 {
     }
 
     .navigation a {
+	white-space: nowrap;
         display: block;
         font-size: 1.2em;
     }
