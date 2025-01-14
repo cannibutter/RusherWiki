@@ -1,0 +1,193 @@
+    <style>
+
+header {
+    text-align: center; /* Centers the image */
+    margin-bottom: 20px; /* Adds spacing below the image */
+}
+
+	    
+        /* General Page Styling */
+        body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-image: url('assets/background.jpg'); /* Path to your image */
+    background-size: cover; /* Makes the image cover the entire page */
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    background-attachment: fixed; /* Keeps the image fixed during scroll */
+    background-position: center; /* Centers the image */
+    color: #fff; /* Adjusts text color for readability */
+}
+
+        h1 {
+            color: #c792ea; /* Purple for the header */
+            text-align: center;
+            font-family: 'Poppins', Arial, sans-serif; /* Add a bold header font */
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Navigation Bar */
+        .navigation {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #2a273f; /* Darker gray */
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navigation a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #c792ea; /* Purple links */
+            font-weight: 600; /* Bolder text for links */
+            font-size: 1.1em;
+            padding: 5px 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navigation a:hover {
+            background-color: #c792ea; /* Purple background on hover */
+            color: #1e1e2e; /* Dark text */
+            border-radius: 4px;
+        }
+
+        /* Section Styling */
+        section {
+            display: none;
+            padding: 15px;
+            background-color: #2a273f; /* Section background */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out; /* Smooth appearance */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Details Styling */
+        details {
+            background-color: #3b3b58; /* Slightly lighter gray */
+            color: #ffffff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #c792ea; /* Purple border */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #c792ea;
+        }
+
+        details summary:hover {
+    text-decoration: underline; /* Optional: underline on hover */
+    border: 2px solid #c792ea; /* Thicker purple border */
+    border-radius: 6px; /* Rounded corners for consistency */
+    padding: 8px; /* Add padding to account for border size */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+
+
+        details p {
+            margin: 5px 0 0 10px;
+            font-size: 0.95em;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 50%;
+            max-width: 500px;
+            font-size: 1em;
+            border: 2px solid #c792ea;
+            border-radius: 6px;
+            background-color: #2a273f;
+            color: #ffffff;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #ffffff; /* White border on focus */
+        }
+
+#toggleAllButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #6a0dad; /* Purple color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+#toggleAllButton:hover {
+    background-color: #8b008b; /* Lighter purple on hover */
+}
+
+
+
+        /* Highlight */
+        .highlight {
+            background-color: #c792ea;
+            color: #ffffff;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+	    .banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2f2f2f; /* Dark background */
+    color: #ffffff; /* White text */
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    z-index: 1000; /* Ensures it stays above all other elements */
+    font-size: 16px;
+}
+
+.banner a {
+    color: #9146ff; /* Purple link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.banner a:hover {
+    text-decoration: underline;
+}
+	    
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
