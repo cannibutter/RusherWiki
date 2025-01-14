@@ -1,8 +1,14 @@
     <style>
 
 header {
-    text-align: center; /* Centers the image */
-    margin-bottom: 20px; /* Adds spacing below the image */
+    text-align: center; /* Centers the content inside the header */
+    margin-bottom: 20px; /* Adds space below the header */
+}
+
+header img {
+    max-width: 100%; /* Ensures the image scales properly */
+    height: auto; /* Maintains aspect ratio */
+    display: inline-block; /* Keeps the image inline for text alignment */
 }
 
 	    
