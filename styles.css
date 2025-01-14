@@ -59,6 +59,56 @@ header img {
             border-radius: 4px;
         }
 
+/* Spacing and readability for sections */
+section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #6a4f9a;
+    border-radius: 5px;
+    background-color: #1f1f2f; /* Darker background for better contrast */
+}
+
+/* Improve readability for details dropdowns */
+details {
+    margin-bottom: 10px;
+    border: 1px solid #6a4f9a;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #2a2a38; /* Match theme colors */
+}
+
+/* Add padding between sections */
+section > h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #c792ea; /* Highlighted title */
+    font-size: 1.2em;
+    text-align: center; /* Center section titles */
+}
+
+/* Ensure dropdown summaries are easy to tap on mobile */
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Ensure good spacing for mobile users */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    section {
+        padding: 10px;
+    }
+
+    details summary {
+        font-size: 1em; /* Slightly smaller font for mobile */
+    }
+}
+
+
         /* Section Styling */
         section {
             display: none;
