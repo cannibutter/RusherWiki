@@ -136,6 +136,7 @@ function toggleAllDetails() {
     toggleButton.addEventListener('click', toggleAllDetails);
     toggleButton.addEventListener('touchstart', toggleAllDetails);
 
+//Forum Scripts
 
 fetch('http://localhost:3000/api/posts')
     .then(response => response.json())
@@ -143,6 +144,10 @@ fetch('http://localhost:3000/api/posts')
         console.log(data); // Use this data to display posts
     });
 
+
+        const voteTracker = {};
+        const posts = [];
+        let showingTopRated = false;
 
 function createPost() {
     const postTitle = document.getElementById('postTitle').value.trim();
@@ -178,3 +183,27 @@ function vote(postId, value) {
         // Update the frontend votes
     });
 }
+
+
+
+        function toggleSort() {
+            const container = document.getElementById('forumPosts');
+            const postElements = Array.from(container.querySelectorAll('.post'));
+
+            if (showingTopRated) {
+                // Show Newest Posts
+                container.innerHTML = "";
+                posts.forEach(post => container.appendChild(post));
+            } else {
+                // Show Top Rated Posts
+                postElements.sort((a, b) => {
+                    const votesA = parseInt(a.querySelector('.votes').textContent, 10) || 0;
+                    const votesB = parseInt(b.querySelector('.votes').textContent, 10) || 0;
+                    return votesB - votesA;
+                });
+                container.innerHTML = "";
+                postElements.forEach(post => container.appendChild(post));
+            }
+
+            showingTopRated = !showingTopRated;
+        }
