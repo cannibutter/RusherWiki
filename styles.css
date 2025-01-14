@@ -59,56 +59,6 @@ header img {
             border-radius: 4px;
         }
 
-/* Spacing and readability for sections */
-section {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #6a4f9a;
-    border-radius: 5px;
-    background-color: #1f1f2f; /* Darker background for better contrast */
-}
-
-/* Improve readability for details dropdowns */
-details {
-    margin-bottom: 10px;
-    border: 1px solid #6a4f9a;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #2a2a38; /* Match theme colors */
-}
-
-/* Add padding between sections */
-section > h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #c792ea; /* Highlighted title */
-    font-size: 1.2em;
-    text-align: center; /* Center section titles */
-}
-
-/* Ensure dropdown summaries are easy to tap on mobile */
-details summary {
-    cursor: pointer;
-    font-weight: bold;
-    padding: 5px;
-}
-
-/* Ensure good spacing for mobile users */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    section {
-        padding: 10px;
-    }
-
-    details summary {
-        font-size: 1em; /* Slightly smaller font for mobile */
-    }
-}
-
-
         /* Section Styling */
         section {
             display: none;
@@ -190,31 +140,21 @@ details summary {
 
 #toggleAllButton {
     position: fixed;
-    top: 20px; /* Adjust for visibility */
-    right: 20px; /* Pin to the top-right corner */
-    background-color: #6a4f9a;
+    top: 20px;
+    right: 20px;
+    background-color: #6a0dad; /* Purple color */
     color: white;
-    padding: 10px 15px;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    z-index: 1000; /* Keep above other elements */
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensures it stays above other elements */
 }
 
 #toggleAllButton:hover {
-    background-color: #805dc7; /* Lighter shade on hover */
+    background-color: #8b008b; /* Lighter purple on hover */
 }
-
-@media (max-width: 768px) {
-    #toggleAll {
-        top: 10px; /* Adjust for smaller screens */
-        right: 10px;
-        font-size: 0.9em;
-        padding: 8px 12px;
-    }
-}
-
 
 
 
