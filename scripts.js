@@ -1,4 +1,5 @@
-<script>
+console.log("Script loaded successfully");
+
     function showSection(sectionId) {
         const sections = document.querySelectorAll('section');
         sections.forEach(section => {
@@ -129,5 +130,3 @@ function toggleAllDetails() {
 
     allDetailsOpen = !allDetailsOpen; // Update the state
 }
-
-</script>
