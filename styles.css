@@ -140,21 +140,31 @@ header img {
 
 #toggleAllButton {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #6a0dad; /* Purple color */
+    top: 20px; /* Adjust for visibility */
+    right: 20px; /* Pin to the top-right corner */
+    background-color: #6a4f9a;
     color: white;
+    padding: 10px 15px;
     border: none;
-    padding: 10px 20px;
     border-radius: 5px;
+    z-index: 1000; /* Keep above other elements */
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensures it stays above other elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 #toggleAllButton:hover {
-    background-color: #8b008b; /* Lighter purple on hover */
+    background-color: #805dc7; /* Lighter shade on hover */
 }
+
+@media (max-width: 768px) {
+    #toggleAll {
+        top: 10px; /* Adjust for smaller screens */
+        right: 10px;
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+}
+
 
 
 
