@@ -1,14 +1,15 @@
     <style>
 
 header {
-    text-align: center; /* Centers the content inside the header */
-    margin-bottom: 20px; /* Adds space below the header */
+    display: flex;
+    justify-content: center; /* Horizontally center the banner */
+    align-items: center; /* Vertically center the banner if there's extra height */
+    margin-bottom: 20px; /* Adjust the space below the banner if needed */
 }
 
 header img {
-    max-width: 100%; /* Ensures the image scales properly */
-    height: auto; /* Maintains aspect ratio */
-    display: inline-block; /* Keeps the image inline for text alignment */
+    max-width: 100%; /* Ensure the image scales on smaller screens */
+    height: auto; /* Maintain aspect ratio */
 }
 
 	    
