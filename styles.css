@@ -36,6 +36,8 @@ header img {
 
         /* Navigation Bar */
         .navigation {
+	    max-width: 1200px; /* Restricts the content width */
+            margin: 0 auto; /* Centers the content horizontally */
             margin-bottom: 20px;
             padding: 10px;
             background-color: #2a273f; /* Darker gray */
